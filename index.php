@@ -7,6 +7,11 @@ require_once 'models/Model.php';
 require_once 'controllers/Controller.php';
 require_once 'routes/Router.php';
 
+// Detect base path for subdirectories
+$basePath = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+if ($basePath === '/') $basePath = '';
+define('BASE_URL', $basePath);
+
 $router = new Router();
 
 // Define routes

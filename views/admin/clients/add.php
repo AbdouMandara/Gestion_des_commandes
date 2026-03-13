@@ -2,44 +2,54 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un client - Admin</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="dashboard-layout">
         <aside class="sidebar">
-            <h2 style="margin-bottom: 20px;">Admin</h2>
+            <h2>Gestion Pro Admin</h2>
             <nav>
-                <ul style="list-style: none;">
-                    <li style="margin-bottom: 15px;"><a href="/admin/dashboard" style="color:white; text-decoration: none;">Dashboard</a></li>
-                    <li style="margin-bottom: 15px;"><a href="/admin/clients" style="color:white; text-decoration: none;">Clients</a></li>
-                    <li style="margin-bottom: 15px;"><a href="/logout" style="color:white; text-decoration: none;">Déconnexion</a></li>
+                <ul class="sidebar-nav">
+                    <li><a href="<?php echo BASE_URL; ?>/admin/dashboard">Tableau de bord</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/admin/clients" class="active">Clients</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/admin/products">Produits</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/admin/orders">Commandes</a></li>
+                    <li style="margin-top: 40px;"><a href="<?php echo BASE_URL; ?>/logout" style="color: var(--color-danger-76);">Déconnexion</a></li>
                 </ul>
             </nav>
         </aside>
         <main class="main-content">
-            <h1>Ajouter un nouveau client</h1>
-            <div style="max-width: 600px; margin-top: 30px; background: white; padding: 30px; border-radius: 8px; box-shadow: var(--shadow);">
-                <form action="/admin/clients/add" method="POST">
+            <header>
+                <div>
+                    <a href="<?php echo BASE_URL; ?>/admin/clients" class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px; margin-bottom: 10px;">← Retour</a>
+                    <h1>Ajouter un nouveau client</h1>
+                </div>
+            </header>
+
+            <div class="card" style="max-width: 600px;">
+                <form action="<?php echo BASE_URL; ?>/admin/clients/add" method="POST">
                     <div class="form-group">
                         <label for="name">Nom complet</label>
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" name="name" placeholder="Ex: Jean Dupont" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" placeholder="jean.dupont@example.com" required>
                     </div>
                     <div class="form-group">
                         <label for="phone">Téléphone</label>
-                        <input type="text" id="phone" name="phone">
+                        <input type="text" id="phone" name="phone" placeholder="06 12 34 56 78">
                     </div>
                     <div class="form-group">
                         <label for="address">Adresse</label>
-                        <textarea id="address" name="address" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px;" rows="4"></textarea>
+                        <textarea id="address" name="address" rows="4" placeholder="Adresse complète..."></textarea>
                     </div>
-                    <div style="display: flex; gap: 15px; margin-top: 20px;">
-                        <button type="submit" class="btn btn-primary" style="width: auto; padding: 10px 25px;">Enregistrer</button>
-                        <a href="/admin/clients" class="btn" style="width: auto; padding: 10px 25px; background: #eee; text-decoration: none; color: black; text-align: center;">Annuler</a>
+                    <div style="display: flex; gap: 15px; margin-top: 20px; border-top: 1px solid var(--border-subtle); padding-top: 20px;">
+                        <button type="submit" class="btn btn-primary" style="padding: 12px 30px;">Enregistrer le client</button>
+                        <a href="<?php echo BASE_URL; ?>/admin/clients" class="btn btn-secondary" style="padding: 12px 30px;">Annuler</a>
                     </div>
                 </form>
             </div>

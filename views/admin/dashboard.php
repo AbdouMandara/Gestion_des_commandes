@@ -2,48 +2,53 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Admin</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="dashboard-layout">
         <aside class="sidebar">
-            <h2 style="margin-bottom: 20px;">Admin</h2>
+            <h2 style="color: var(--color-primary-48);">Gestion Pro Admin</h2>
             <nav>
-                <ul style="list-style: none;">
-                    <li style="margin-bottom: 15px;"><a href="/admin/dashboard" style="color:white; text-decoration: none;">Dashboard</a></li>
-                    <li style="margin-bottom: 15px;"><a href="/admin/clients" style="color:white; text-decoration: none;">Clients</a></li>
-                    <li style="margin-bottom: 15px;"><a href="/admin/products" style="color:white; text-decoration: none;">Produits</a></li>
-                    <li style="margin-bottom: 15px;"><a href="/logout" style="color:white; text-decoration: none;">Déconnexion</a></li>
+                <ul class="sidebar-nav">
+                    <li><a href="<?php echo BASE_URL; ?>/admin/dashboard" class="active">Tableau de bord</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/admin/clients">Clients</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/admin/products">Produits</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/admin/orders">Commandes</a></li>
+                    <li style="margin-top: 40px;"><a href="<?php echo BASE_URL; ?>/logout" style="color: var(--color-danger-76);">Déconnexion</a></li>
                 </ul>
             </nav>
         </aside>
         <main class="main-content">
-            <header style="margin-bottom: 40px;">
-                <h1>Tableau de Bord</h1>
-                <p style="color: var(--text-muted);">Bienvenue, <?php echo htmlspecialchars($username); ?>.</p>
+            <header>
+                <div>
+                    <h1>Tableau de Bord</h1>
+                    <p class="text-muted">Bienvenue dans votre espace d'administration, <?php echo htmlspecialchars($username); ?>.</p>
+                </div>
             </header>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px;">
-                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: var(--shadow);">
-                    <h3 style="color: var(--text-muted); font-size: 14px; text-transform: uppercase;">Total Clients</h3>
-                    <p style="font-size: 32px; font-weight: 700; margin-top: 10px;"><?php echo $clientCount; ?></p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Clients</h3>
+                    <div class="value"><?php echo $clientCount; ?></div>
                 </div>
-                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: var(--shadow);">
-                    <h3 style="color: var(--text-muted); font-size: 14px; text-transform: uppercase;">Total Produits</h3>
-                    <p style="font-size: 32px; font-weight: 700; margin-top: 10px;"><?php echo $productCount; ?></p>
+                <div class="stat-card">
+                    <h3>Total Produits</h3>
+                    <div class="value"><?php echo $productCount; ?></div>
                 </div>
-                <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: var(--shadow);">
-                    <h3 style="color: var(--text-muted); font-size: 14px; text-transform: uppercase;">Total Commandes</h3>
-                    <p style="font-size: 32px; font-weight: 700; margin-top: 10px;"><?php echo $orderCount; ?></p>
+                <div class="stat-card">
+                    <h3>Total Commandes</h3>
+                    <div class="value"><?php echo $orderCount; ?></div>
                 </div>
             </div>
 
-            <section style="background: white; padding: 30px; border-radius: 12px; box-shadow: var(--shadow);">
-                <h2>Actions Rapides</h2>
-                <div style="display: flex; gap: 15px; margin-top: 20px;">
-                    <a href="/admin/clients/add" class="btn btn-primary" style="width: auto; padding: 10px 20px; text-decoration: none;">Nouveau Client</a>
-                    <a href="/admin/products/add" class="btn btn-primary" style="width: auto; padding: 10px 20px; text-decoration: none; background: #10b981;">Nouveau Produit</a>
+            <section class="card">
+                <h2 style="margin-bottom: 20px;">Actions Rapides</h2>
+                <div style="display: flex; gap: 15px;">
+                    <a href="<?php echo BASE_URL; ?>/admin/clients/add" class="btn btn-primary">Nouveau Client</a>
+                    <a href="<?php echo BASE_URL; ?>/admin/products/add" class="btn btn-secondary">Nouveau Produit</a>
                 </div>
             </section>
         </main>

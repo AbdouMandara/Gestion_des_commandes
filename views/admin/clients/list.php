@@ -2,56 +2,65 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clients - Admin</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="dashboard-layout">
         <aside class="sidebar">
-            <h2 style="margin-bottom: 20px;">Admin</h2>
+            <h2>Gestion Pro Admin</h2>
             <nav>
-                <ul style="list-style: none;">
-                    <li style="margin-bottom: 15px;"><a href="/admin/dashboard" style="color:white; text-decoration: none;">Dashboard</a></li>
-                    <li style="margin-bottom: 15px;"><a href="/admin/clients" style="color:white; text-decoration: none;">Clients</a></li>
-                    <li style="margin-bottom: 15px;"><a href="/logout" style="color:white; text-decoration: none;">Déconnexion</a></li>
+                <ul class="sidebar-nav">
+                    <li><a href="<?php echo BASE_URL; ?>/admin/dashboard">Tableau de bord</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/admin/clients" class="active">Clients</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/admin/products">Produits</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/admin/orders">Commandes</a></li>
+                    <li style="margin-top: 40px;"><a href="<?php echo BASE_URL; ?>/logout" style="color: var(--color-danger-76);">Déconnexion</a></li>
                 </ul>
             </nav>
         </aside>
         <main class="main-content">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                <h1>Gestion des Clients</h1>
-                <a href="/admin/clients/add" class="btn btn-primary" style="width: auto; padding: 10px 20px;">Ajouter un client</a>
-            </div>
+            <header>
+                <div>
+                    <h1>Gestion des Clients</h1>
+                    <p class="text-muted">Consultez et gérez la liste de vos clients.</p>
+                </div>
+                <a href="<?php echo BASE_URL; ?>/admin/clients/add" class="btn btn-primary">Ajouter un client</a>
+            </header>
 
-            <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: var(--shadow);">
-                <thead style="background: #f1f5f9;">
-                    <tr>
-                        <th style="padding: 15px; text-align: left;">Nom</th>
-                        <th style="padding: 15px; text-align: left;">Email</th>
-                        <th style="padding: 15px; text-align: left;">Téléphone</th>
-                        <th style="padding: 15px; text-align: left;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($clients)): ?>
+            <div class="table-container">
+                <table>
+                    <thead>
                         <tr>
-                            <td colspan="4" style="padding: 20px; text-align: center; color: var(--text-muted);">Aucun client trouvé.</td>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th class="text-right">Actions</th>
                         </tr>
-                    <?php else: ?>
-                        <?php foreach ($clients as $client): ?>
-                            <tr style="border-bottom: 1px solid var(--border-color);">
-                                <td style="padding: 15px;"><?php echo htmlspecialchars($client['name']); ?></td>
-                                <td style="padding: 15px;"><?php echo htmlspecialchars($client['email']); ?></td>
-                                <td style="padding: 15px;"><?php echo htmlspecialchars($client['phone']); ?></td>
-                                <td style="padding: 15px;">
-                                    <a href="/admin/clients/edit?id=<?php echo $client['id']; ?>" style="color: var(--primary-color); text-decoration: none; margin-right: 15px;">Modifier</a>
-                                    <a href="/admin/clients/delete?id=<?php echo $client['id']; ?>" style="color: var(--error-color); text-decoration: none;" onclick="return confirm('Supprimer ce client ?')">Supprimer</a>
-                                </td>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($clients)): ?>
+                            <tr>
+                                <td colspan="4" style="padding: 40px; text-align: center; color: var(--text-muted);">Aucun client trouvé.</td>
                             </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                        <?php else: ?>
+                            <?php foreach ($clients as $client): ?>
+                                <tr>
+                                    <td style="font-weight: 600;"><?php echo htmlspecialchars($client['name']); ?></td>
+                                    <td><?php echo htmlspecialchars($client['email']); ?></td>
+                                    <td><?php echo htmlspecialchars($client['phone']); ?></td>
+                                    <td class="text-right">
+                                        <a href="<?php echo BASE_URL; ?>/admin/clients/edit?id=<?php echo $client['id']; ?>" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; margin-right: 5px;">Modifier</a>
+                                        <a href="<?php echo BASE_URL; ?>/admin/clients/delete?id=<?php echo $client['id']; ?>" class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="return confirm('Supprimer ce client ?')">Supprimer</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </main>
     </div>
 </body>

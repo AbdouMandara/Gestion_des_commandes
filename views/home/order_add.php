@@ -2,33 +2,49 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Passer une commande - Gestion des Commandes</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .product-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-end; }
-        .product-row > div { flex: 1; }
-        .remove-product { background: var(--error-color); color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; height: 40px; }
+        .product-row { display: flex; gap: 15px; margin-bottom: 15px; align-items: flex-end; }
+        .product-row > .flex-1 { flex: 1; }
+        .product-row > .w-120 { width: 120px; }
+        .remove-product { 
+            background: var(--color-danger-95); 
+            color: var(--color-danger); 
+            border: 1px solid var(--color-danger-86); 
+            padding: 0 15px; 
+            border-radius: var(--radius-md); 
+            cursor: pointer; 
+            height: 48px; 
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
-    <div class="main-content" style="max-width: 800px; margin: 0 auto; padding-top: 50px;">
-        <header style="margin-bottom: 40px;">
-            <a href="/" style="text-decoration: none; color: var(--text-muted); font-size: 14px;">← Retour</a>
-            <h1 style="margin-top: 10px;">Passer une nouvelle commande</h1>
+    <div class="container" style="max-width: 800px;">
+        <header>
+            <div>
+                <a href="<?php echo BASE_URL; ?>/" class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px; margin-bottom: 10px;">← Retour</a>
+                <h1>Passer une nouvelle commande</h1>
+            </div>
         </header>
         
         <?php if (isset($error)): ?>
-            <div class="alert alert-danger"><?php echo $error; ?></div>
+            <div class="badge badge-danger" style="display: block; text-align: center; margin-bottom: 20px; padding: 12px; border-radius: var(--radius-md);"><?php echo $error; ?></div>
         <?php endif; ?>
 
-        <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: var(--shadow);">
-            <form action="/order/create" method="POST" id="order-form">
-                <h3 style="margin-bottom: 15px;">Sélectionnez vos produits</h3>
+        <div class="card">
+            <form action="<?php echo BASE_URL; ?>/order/create" method="POST" id="order-form">
+                <h3 style="margin-bottom: 20px;">Sélectionnez vos produits</h3>
                 <div id="product-list">
                     <div class="product-row">
-                        <div class="form-group">
+                        <div class="form-group flex-1">
                             <label>Produit</label>
-                            <select name="products[]" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px;">
+                            <select name="products[]" required>
                                 <option value="">Choisir un produit</option>
                                 <?php foreach ($products as $product): ?>
                                     <option value="<?php echo $product['id']; ?>" <?php echo $product['quantity'] <= 0 ? 'disabled' : ''; ?>>
@@ -37,19 +53,19 @@
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="form-group" style="max-width: 120px;">
+                        <div class="form-group w-120">
                             <label>Quantité</label>
-                            <input type="number" name="quantities[]" min="1" value="1" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px;">
+                            <input type="number" name="quantities[]" min="1" value="1" required>
                         </div>
-                        <button type="button" class="remove-product" style="display:none;">×</button>
+                        <button type="button" class="remove-product" style="display:none; margin-bottom: 20px;">&times;</button>
                     </div>
                 </div>
 
-                <button type="button" id="add-product" class="btn" style="width: auto; padding: 8px 15px; background: #f1f5f9; margin-bottom: 30px; color: var(--text-color); font-weight: 500;">+ Ajouter un produit</button>
+                <button type="button" id="add-product" class="btn btn-secondary" style="margin-bottom: 30px;">+ Ajouter un produit</button>
 
-                <div style="display: flex; gap: 15px; margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 20px;">
-                    <button type="submit" class="btn btn-primary" style="width: auto; padding: 12px 30px;">Confirmer la commande</button>
-                    <a href="/" class="btn" style="width: auto; padding: 12px 30px; background: #eee; text-decoration: none; color: black; text-align: center;">Annuler</a>
+                <div style="display: flex; gap: 15px; margin-top: 20px; border-top: 1px solid var(--border-subtle); padding-top: 20px;">
+                    <button type="submit" class="btn btn-primary" style="padding: 12px 30px;">Confirmer la commande</button>
+                    <a href="<?php echo BASE_URL; ?>/" class="btn btn-secondary" style="padding: 12px 30px;">Annuler</a>
                 </div>
             </form>
         </div>
@@ -62,7 +78,7 @@
             newRow.querySelector('select').value = '';
             newRow.querySelector('input').value = '1';
             const removeBtn = newRow.querySelector('.remove-product');
-            removeBtn.style.display = 'block';
+            removeBtn.style.display = 'flex';
             removeBtn.addEventListener('click', () => newRow.remove());
             productList.appendChild(newRow);
         });

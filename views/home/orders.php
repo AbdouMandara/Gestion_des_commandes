@@ -2,42 +2,46 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes Commandes - Gestion des Commandes</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="main-content" style="max-width: 1000px; margin: 0 auto; padding-top: 50px;">
-        <header style="margin-bottom: 40px;">
-            <a href="/" style="text-decoration: none; color: var(--text-muted); font-size: 14px;">← Retour</a>
-            <h1 style="margin-top: 10px;">Mes Commandes</h1>
+    <div class="container">
+        <header>
+            <div>
+                <a href="<?php echo BASE_URL; ?>/" class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px; margin-bottom: 10px;">← Retour</a>
+                <h1>Mes Commandes</h1>
+            </div>
         </header>
 
-        <section style="background: white; border-radius: 12px; box-shadow: var(--shadow); overflow: hidden;">
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead style="background: #f1f5f9;">
+        <div class="table-container">
+            <table>
+                <thead>
                     <tr>
-                        <th style="padding: 15px; text-align: left;">Commande #</th>
-                        <th style="padding: 15px; text-align: left;">Date</th>
-                        <th style="padding: 15px; text-align: left;">Montant</th>
-                        <th style="padding: 15px; text-align: left;">Statut</th>
+                        <th>Commande #</th>
+                        <th>Date</th>
+                        <th>Montant</th>
+                        <th>Statut</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (empty($orders)): ?>
                         <tr>
-                            <td colspan="4" style="padding: 30px; text-align: center; color: var(--text-muted);">
+                            <td colspan="4" style="padding: 40px; text-align: center; color: var(--text-muted);">
                                 Vous n'avez pas encore passé de commande.
                             </td>
                         </tr>
                     <?php else: ?>
                         <?php foreach ($orders as $order): ?>
-                            <tr style="border-bottom: 1px solid var(--border-color);">
-                                <td style="padding: 15px; font-weight: 600;">#<?php echo $order['id']; ?></td>
-                                <td style="padding: 15px; color: var(--text-muted);"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></td>
-                                <td style="padding: 15px;"><?php echo number_format($order['total_amount'], 2); ?> €</td>
-                                <td style="padding: 15px;">
-                                    <span style="padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; background: <?php 
-                                        echo ($order['status'] === 'livrée' ? '#dcfce7; color: #166534;' : ($order['status'] === 'en cours' ? '#fef9c3; color: #854d0e;' : '#f1f5f9; color: #475569;')); 
+                            <tr>
+                                <td style="font-weight: 700;">#<?php echo $order['id']; ?></td>
+                                <td><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></td>
+                                <td style="font-weight: 600; color: var(--color-primary);"><?php echo number_format($order['total_amount'], 2); ?> €</td>
+                                <td>
+                                    <span class="badge <?php 
+                                        echo ($order['status'] === 'livrée' ? 'badge-success' : ($order['status'] === 'en cours' ? 'badge-warning' : '')); 
                                     ?>">
                                         <?php echo ucfirst($order['status']); ?>
                                     </span>
@@ -47,7 +51,7 @@
                     <?php endif; ?>
                 </tbody>
             </table>
-        </section>
+        </div>
     </div>
 </body>
 </html>

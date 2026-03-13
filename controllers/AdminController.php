@@ -3,6 +3,7 @@ require_once 'models/Client.php';
 require_once 'models/User.php';
 require_once 'models/Produit.php';
 require_once 'models/Commande.php';
+require_once 'controllers/AuthController.php';
 
 class AdminController extends Controller {
     private $clientModel;
