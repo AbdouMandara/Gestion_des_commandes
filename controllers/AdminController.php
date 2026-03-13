@@ -22,12 +22,22 @@ class AdminController extends Controller {
         $clientCount = $this->clientModel->getCount();
         $productCount = $this->productModel->getCount(); 
         $orderCount = $this->orderModel->getCount();
+        
+        // Fetch recent orders (last 5)
+        $recentOrders = $this->orderModel->getAll();
+        $recentOrders = array_slice($recentOrders, 0, 5);
+        
+        // Fetch total revenue
+        $stmt = Database::getInstance()->query("SELECT SUM(total_amount) FROM commandes WHERE status = 'livrée'");
+        $totalRevenue = $stmt->fetchColumn() ?: 0;
 
         $this->render('admin/dashboard', [
             'username' => $_SESSION['username'],
             'clientCount' => $clientCount,
             'productCount' => $productCount,
-            'orderCount' => $orderCount
+            'orderCount' => $orderCount,
+            'recentOrders' => $recentOrders,
+            'totalRevenue' => $totalRevenue
         ]);
     }
 
