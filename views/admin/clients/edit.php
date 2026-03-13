@@ -72,33 +72,35 @@
                 <h1 style="font-size: 28px; font-weight: 800; color: var(--color-primary-10); letter-spacing: -1px;">Modifier le client</h1>
             </div>
 
-            <div class="card" style="max-width: 600px;">
+            <div class="card">
                 <?php if (!$client): ?>
                     <div class="badge badge-danger" style="display: block; text-align: center; padding: 12px;">Client non trouvé.</div>
                 <?php else: ?>
-                    <form action="<?php echo BASE_URL; ?>/admin/clients/edit?id=<?php echo $client['id']; ?>" method="POST">
-                        <div class="form-group">
-                            <label for="name">Nom complet</label>
-                            <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($client['name']); ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($client['email']); ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Téléphone</label>
-                            <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($client['phone']); ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Adresse</label>
-                            <textarea id="address" name="address" rows="4"><?php echo htmlspecialchars($client['address']); ?></textarea>
-                        </div>
-                        <div style="display: flex; gap: 15px; margin-top: 20px; border-top: 1px solid var(--border-subtle); padding-top: 20px;">
-                            <button type="submit" class="btn btn-primary" style="padding: 12px 30px;">Enregistrer les modifications</button>
-                            <a href="<?php echo BASE_URL; ?>/admin/clients" class="btn btn-secondary" style="padding: 12px 30px;">Annuler</a>
-                        </div>
-                    </form>
-                <?php endif; ?>
+                <div class="form-card">
+                <form action="<?php echo BASE_URL; ?>/admin/clients/edit?id=<?php echo $client['id']; ?>" method="POST">
+                    <div class="form-group">
+                        <label for="name">Nom complet</label>
+                        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($client['name']); ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email professionnel</label>
+                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($client['email']); ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Numéro de téléphone</label>
+                        <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($client['phone']); ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Adresse de livraison</label>
+                        <textarea id="address" name="address" rows="3"><?php echo htmlspecialchars($client['address']); ?></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" style="flex: 1; padding: 14px;">Mettre à jour</button>
+                        <a href="<?php echo BASE_URL; ?>/admin/clients" class="btn btn-secondary" style="flex: 1; padding: 14px; text-align: center;">Annuler</a>
+                    </div>
+                </form>
+            </div>
+    <?php endif; ?>
             </div>
         </main>
     </div>

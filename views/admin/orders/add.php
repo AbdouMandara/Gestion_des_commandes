@@ -64,8 +64,7 @@
                     </li>
                 </ul>
             </nav>
-        </aside>
-        <main class="main-content">
+        </aside>        <main class="main-content">
             <header class="main-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid var(--border-subtle);">
                 <div class="search-bar" style="position: relative; width: 400px;">
                     <span class="material-symbols-rounded" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 20px;">search</span>
@@ -92,45 +91,61 @@
                 <div class="badge badge-danger" style="display: block; text-align: center; margin-bottom: 20px; padding: 12px;"><?php echo $error; ?></div>
             <?php endif; ?>
 
-            <div class="card" style="max-width: 800px;">
+            <div class="form-card" style="max-width: 900px;">
                 <form action="<?php echo BASE_URL; ?>/admin/orders/add" method="POST" id="order-form">
-                    <div class="form-group" style="max-width: 400px;">
-                        <label for="client_id">Client</label>
-                        <select name="client_id" id="client_id" required>
-                            <option value="">Sélectionnez un client</option>
-                            <?php foreach ($clients as $client): ?>
-                                <option value="<?php echo $client['id']; ?>"><?php echo htmlspecialchars($client['name']); ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <h3 style="margin: 30px 0 20px 0;">Sélection des Produits</h3>
-                    <div id="product-list">
-                        <div class="product-row">
-                            <div class="form-group flex-1">
-                                <label>Produit</label>
-                                <select name="products[]" required>
-                                    <option value="">Choisir un produit</option>
-                                    <?php foreach ($products as $product): ?>
-                                        <option value="<?php echo $product['id']; ?>" data-price="<?php echo $product['price']; ?>">
-                                            <?php echo htmlspecialchars($product['name']); ?> (<?php echo $product['quantity']; ?> en stock)
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group w-150">
-                                <label>Quantité</label>
-                                <input type="number" name="quantities[]" min="1" value="1" required>
-                            </div>
-                            <button type="button" class="remove-product" style="display:none; margin-bottom: 20px;">Supprimer</button>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="client_id">Sélectionner le Client</label>
+                            <select id="client_id" name="client_id" required>
+                                <option value="">-- Choisir un client --</option>
+                                <?php foreach ($clients as $client): ?>
+                                    <option value="<?php echo $client['id']; ?>"><?php echo htmlspecialchars($client['name']); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="status">Statut Initial</label>
+                            <select id="status" name="status" required>
+                                <option value="en cours">En cours</option>
+                                <option value="livrée">Livrée</option>
+                            </select>
                         </div>
                     </div>
 
-                    <button type="button" id="add-product" class="btn btn-secondary" style="margin-bottom: 30px;">+ Ajouter un autre produit</button>
+                    <div style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="font-size: 14px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Produits & Quantités</h3>
+                        <button type="button" id="add-product-btn" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; display: flex; align-items: center; gap: 8px;">
+                            <span class="material-symbols-rounded" style="font-size: 18px;">add_circle</span>
+                            Ajouter un produit
+                        </button>
+                    </div>
 
-                    <div style="display: flex; gap: 15px; margin-top: 20px; border-top: 1px solid var(--border-subtle); padding-top: 20px;">
-                        <button type="submit" class="btn btn-primary" style="padding: 12px 30px;">Valider la commande</button>
-                        <a href="<?php echo BASE_URL; ?>/admin/orders" class="btn btn-secondary" style="padding: 12px 30px;">Annuler</a>
+                    <div id="product-list" style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px;">
+                        <div class="product-row" style="display: flex; gap: 16px; align-items: flex-start;">
+                            <div class="form-group" style="flex: 2; margin-bottom: 0;">
+                                <label>Produit</label>
+                                <select name="products[]" required>
+                                    <option value="">-- Sélectionner --</option>
+                                    <?php foreach ($products as $product): ?>
+                                        <option value="<?php echo $product['id']; ?>"><?php echo htmlspecialchars($product['name']); ?> (<?php echo $product['price']; ?> €)</option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                                <label>Quantité</label>
+                                <input type="number" name="quantities[]" min="1" value="1" required>
+                            </div>
+                            <div style="padding-top: 24px;">
+                                <button type="button" class="btn btn-danger remove-product" style="display: none; height: 44px; width: 44px; padding: 0; justify-content: center; align-items: center;">
+                                    <span class="material-symbols-rounded">delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" style="flex: 2; padding: 14px;">Enregistrer la commande</button>
+                        <a href="<?php echo BASE_URL; ?>/admin/orders" class="btn btn-secondary" style="flex: 1; padding: 14px; text-align: center;">Annuler</a>
                     </div>
                 </form>
             </div>
@@ -138,26 +153,44 @@
     </div>
 
     <script>
-        document.getElementById('add-product').addEventListener('click', function() {
-            const productList = document.getElementById('product-list');
-            const newRow = productList.children[0].cloneNode(true);
+        const addBtn = document.getElementById('add-product-btn');
+        const productList = document.getElementById('product-list');
+
+        function updateRemoveButtons() {
+            const rows = productList.querySelectorAll('.product-row');
+            rows.forEach((row, index) => {
+                const btn = row.querySelector('.remove-product');
+                btn.style.display = rows.length > 1 ? 'flex' : 'none';
+            });
+        }
+
+        addBtn.addEventListener('click', () => {
+            const rows = productList.querySelectorAll('.product-row');
+            const newRow = rows[0].cloneNode(true);
+            
+            // Reset values
             newRow.querySelector('select').value = '';
             newRow.querySelector('input').value = '1';
-            const removeBtn = newRow.querySelector('.remove-product');
-            removeBtn.style.display = 'flex';
-            removeBtn.addEventListener('click', function() {
+            
+            // Add remove event
+            newRow.querySelector('.remove-product').addEventListener('click', () => {
                 newRow.remove();
+                updateRemoveButtons();
             });
+            
             productList.appendChild(newRow);
+            updateRemoveButtons();
         });
 
+        // Initialize first row remove button
         document.querySelectorAll('.remove-product').forEach(btn => {
-            btn.addEventListener('click', function() {
-                if (document.getElementById('product-list').children.length > 1) {
-                    btn.closest('.product-row').remove();
+            btn.addEventListener('click', (e) => {
+                if (productList.querySelectorAll('.product-row').length > 1) {
+                    e.target.closest('.product-row').remove();
+                    updateRemoveButtons();
                 }
             });
         });
     </script>
 </body>
-</html>tml>
+</html>

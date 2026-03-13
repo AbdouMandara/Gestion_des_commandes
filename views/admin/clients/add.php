@@ -72,27 +72,27 @@
                 <h1 style="font-size: 28px; font-weight: 800; color: var(--color-primary-10); letter-spacing: -1px;">Ajouter un client</h1>
             </div>
 
-            <div class="card" style="max-width: 600px;">
+            <div class="form-card">
                 <form action="<?php echo BASE_URL; ?>/admin/clients/add" method="POST">
                     <div class="form-group">
                         <label for="name">Nom complet</label>
                         <input type="text" id="name" name="name" placeholder="Ex: Jean Dupont" required>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email</label>
+                        <label for="email">Email professionnel</label>
                         <input type="email" id="email" name="email" placeholder="jean.dupont@example.com" required>
                     </div>
                     <div class="form-group">
-                        <label for="phone">Téléphone</label>
-                        <input type="text" id="phone" name="phone" placeholder="06 12 34 56 78">
+                        <label for="phone">Numéro de téléphone</label>
+                        <input type="text" id="phone" name="phone" placeholder="+33 6 12 34 56 78">
                     </div>
                     <div class="form-group">
-                        <label for="address">Adresse</label>
-                        <textarea id="address" name="address" rows="4" placeholder="Adresse complète..."></textarea>
+                        <label for="address">Adresse de livraison</label>
+                        <textarea id="address" name="address" rows="3" placeholder="Numéro, rue, code postal, ville..."></textarea>
                     </div>
-                    <div style="display: flex; gap: 15px; margin-top: 20px; border-top: 1px solid var(--border-subtle); padding-top: 20px;">
-                        <button type="submit" class="btn btn-primary" style="padding: 12px 30px;">Enregistrer le client</button>
-                        <a href="<?php echo BASE_URL; ?>/admin/clients" class="btn btn-secondary" style="padding: 12px 30px;">Annuler</a>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" style="flex: 1; padding: 14px;">Créer le client</button>
+                        <a href="<?php echo BASE_URL; ?>/admin/clients" class="btn btn-secondary" style="flex: 1; padding: 14px; text-align: center;">Annuler</a>
                     </div>
                 </form>
             </div>

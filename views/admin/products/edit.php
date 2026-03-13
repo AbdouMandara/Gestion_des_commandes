@@ -76,28 +76,30 @@
                 <?php if (!$product): ?>
                     <div class="badge badge-danger" style="display: block; text-align: center; padding: 12px;">Produit non trouvé.</div>
                 <?php else: ?>
-                    <form action="<?php echo BASE_URL; ?>/admin/products/edit?id=<?php echo $product['id']; ?>" method="POST">
-                        <div class="form-group">
-                            <label for="name">Nom du produit</label>
-                            <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($product['name']); ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="price">Prix (€)</label>
-                            <input type="number" id="price" name="price" step="0.01" value="<?php echo $product['price']; ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="quantity">Quantité en stock</label>
-                            <input type="number" id="quantity" name="quantity" value="<?php echo $product['quantity']; ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea id="description" name="description" rows="4"><?php echo htmlspecialchars($product['description']); ?></textarea>
-                        </div>
-                        <div style="display: flex; gap: 15px; margin-top: 20px; border-top: 1px solid var(--border-subtle); padding-top: 20px;">
-                            <button type="submit" class="btn btn-primary" style="padding: 12px 30px;">Enregistrer les modifications</button>
-                            <a href="<?php echo BASE_URL; ?>/admin/products" class="btn btn-secondary" style="padding: 12px 30px;">Annuler</a>
-                        </div>
-                    </form>
+                    <div class="form-card">
+                        <form action="<?php echo BASE_URL; ?>/admin/products/edit?id=<?php echo $product['id']; ?>" method="POST">
+                            <div class="form-group">
+                                <label for="name">Nom du produit</label>
+                                <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($product['name']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Prix unitaire (€)</label>
+                                <input type="number" step="0.01" id="price" name="price" value="<?php echo htmlspecialchars($product['price']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity">Quantité en stock</label>
+                                <input type="number" id="quantity" name="quantity" value="<?php echo htmlspecialchars($product['quantity']); ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description (Optionnel)</label>
+                                <textarea id="description" name="description" rows="3"><?php echo htmlspecialchars($product['description']); ?></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary" style="flex: 1; padding: 14px;">Mettre à jour</button>
+                                <a href="<?php echo BASE_URL; ?>/admin/products" class="btn btn-secondary" style="flex: 1; padding: 14px; text-align: center;">Annuler</a>
+                            </div>
+                        </form>
+                    </div>
                 <?php endif; ?>
             </div>
         </main>

@@ -72,27 +72,27 @@
                 <h1 style="font-size: 28px; font-weight: 800; color: var(--color-primary-10); letter-spacing: -1px;">Ajouter un produit</h1>
             </div>
 
-            <div class="card" style="max-width: 600px;">
+            <div class="form-card">
                 <form action="<?php echo BASE_URL; ?>/admin/products/add" method="POST">
                     <div class="form-group">
                         <label for="name">Nom du produit</label>
-                        <input type="text" id="name" name="name" placeholder="Ex: Laptop Dell XPS" required>
+                        <input type="text" id="name" name="name" placeholder="Ex: Ordinateur Portable" required>
                     </div>
                     <div class="form-group">
-                        <label for="price">Prix (€)</label>
-                        <input type="number" id="price" name="price" step="0.01" placeholder="0.00" required>
+                        <label for="price">Prix unitaire (€)</label>
+                        <input type="number" step="0.01" id="price" name="price" placeholder="0.00" required>
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantité en stock</label>
                         <input type="number" id="quantity" name="quantity" placeholder="0" required>
                     </div>
                     <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description" rows="4" placeholder="Description du produit..."></textarea>
+                        <label for="description">Description (Optionnel)</label>
+                        <textarea id="description" name="description" rows="3" placeholder="Description du produit..."></textarea>
                     </div>
-                    <div style="display: flex; gap: 15px; margin-top: 20px; border-top: 1px solid var(--border-subtle); padding-top: 20px;">
-                        <button type="submit" class="btn btn-primary" style="padding: 12px 30px;">Enregistrer le produit</button>
-                        <a href="<?php echo BASE_URL; ?>/admin/products" class="btn btn-secondary" style="padding: 12px 30px;">Annuler</a>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" style="flex: 1; padding: 14px;">Ajouter au catalogue</button>
+                        <a href="<?php echo BASE_URL; ?>/admin/products" class="btn btn-secondary" style="flex: 1; padding: 14px; text-align: center;">Annuler</a>
                     </div>
                 </form>
             </div>
