@@ -1,72 +1,56 @@
 :root {
-  --color-primary: #00796B;
-  --color-primary-10: #00332d;
-  --color-primary-19: #006156;
-  --color-primary-29: #009483;
-  --color-primary-38: #00c2ab;
-  --color-primary-48: #00f5d8;
-  --color-primary-57: #24ffe5;
-  --color-primary-67: #57ffeb;
-  --color-primary-76: #85fff1;
-  --color-primary-86: #b8fff7;
-  --color-primary-95: #e5fffc;
+  --color-primary: #334155; /* Slate 700 */
+  --color-primary-10: #0f172a; /* Slate 900 */
+  --color-primary-19: #1e293b; /* Slate 800 */
+  --color-primary-29: #334155;
+  --color-primary-38: #475569;
+  --color-primary-48: #64748b;
+  --color-primary-57: #94a3b8;
+  --color-primary-67: #cbd5e1;
+  --color-primary-76: #e2e8f0;
+  --color-primary-86: #f1f5f9;
+  --color-primary-95: #f8fafc;
 
-  --color-secondary: #FFA000;
-  --color-secondary-10: #332000;
-  --color-secondary-19: #613d00;
-  --color-secondary-29: #945e00;
-  --color-secondary-38: #c27b00;
-  --color-secondary-48: #f59b00;
-  --color-secondary-57: #ffaf24;
-  --color-secondary-67: #ffc157;
-  --color-secondary-76: #ffd285;
-  --color-secondary-86: #ffe5b8;
-  --color-secondary-95: #fff6e5;
+  --color-secondary: #94a3b8;
+  --color-secondary-10: #0f172a;
+  --color-secondary-19: #1e293b;
+  --color-secondary-38: #475569;
 
-  --color-accent: #2645f2;
-  --color-accent-10: #030a30;
-  --color-accent-19: #05125b;
-  --color-accent-29: #081c8c;
-  --color-accent-38: #0b25b7;
-  --color-accent-48: #0e2ee7;
-  --color-accent-57: #304df3;
-  --color-accent-67: #6077f5;
-  --color-accent-76: #8c9cf8;
-  --color-accent-86: #bcc5fb;
-  --color-accent-95: #e7eafe;
+  --color-neutral-10: #0f172a;
+  --color-neutral-19: #1e293b;
+  --color-neutral-29: #334155;
+  --color-neutral-38: #475569;
+  --color-neutral-48: #64748b;
+  --color-neutral-57: #94a3b8;
+  --color-neutral-67: #cbd5e1;
+  --color-neutral-76: #e2e8f0;
+  --color-neutral-86: #f1f5f9;
+  --color-neutral-95: #f8fafc;
 
-  --color-warning: #FFB300;
-  --color-danger: #D32F2F;
-  --color-success: #388E3C;
-  --color-info: #1976D2;
-
-  --color-neutral-10: #171c1b;
-  --color-neutral-19: #2c3534;
-  --color-neutral-29: #435150;
-  --color-neutral-38: #576b68;
-  --color-neutral-48: #6e8784;
-  --color-neutral-57: #869c9a;
-  --color-neutral-67: #a2b3b1;
-  --color-neutral-76: #bcc8c6;
-  --color-neutral-86: #d8dfde;
-  --color-neutral-95: #f1f4f3;
-
-  --bg-main: #fcfdfd;
+  --bg-main: #ffffff;
   --bg-card: #ffffff;
-  --border-subtle: var(--color-neutral-86);
-  --text-main: var(--color-neutral-10);
-  --text-muted: var(--color-neutral-38);
-  
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.05);
-  
-  --bg-main: #f8fafc;
-  --bg-card: #ffffff;
-  --text-main: #1e293b;
-  --text-muted: #64748b;
   --border-subtle: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  /* Spacing Grid (8px base) */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 40px;
+  --space-6: 48px;
+  --space-8: 64px;
 }
 
 * {
@@ -161,16 +145,31 @@ header {
 }
 
 .card:hover {
-  box-shadow: var(--shadow-lg);
-}
-
-.card h2 {
-  margin-bottom: 12px;
-  color: var(--color-primary);
+  border-color: var(--color-primary-57);
 }
 
 .card p {
   color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.card-body {
+    padding: var(--space-3);
+}
+
+.card-footer {
+    padding: var(--space-3);
+    border-top: 1px solid var(--border-subtle);
+    background: var(--color-neutral-95);
 }
 
 /* Buttons */
@@ -452,8 +451,8 @@ tr:last-child td {
     transition: opacity 0.3s;
 }
 
-.stat-card:hover::after {
-    opacity: 1;
+.stat-card:hover {
+    border-color: var(--color-primary-57);
 }
 
 .stat-card h3 {
@@ -462,7 +461,7 @@ tr:last-child td {
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--text-muted);
-    margin-bottom: 12px;
+    margin-bottom: var(--space-1);
 }
 
 .stat-card .value {
@@ -473,36 +472,96 @@ tr:last-child td {
     letter-spacing: -0.5px;
 }
 
-.stat-card .trend {
-    font-size: 12px;
-    margin-top: 8px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.stat-card .trend.up { color: var(--color-success); }
-.stat-card .trend.down { color: var(--color-danger); }
-
-.stat-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
 .stat-icon {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: var(--radius-md);
-    background: var(--color-primary-95);
-    color: var(--color-primary);
+    background: transparent;
+    border: 1px solid var(--border-subtle);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--color-primary);
 }
 
 .stat-icon .material-symbols-rounded {
-    font-size: 22px;
+    font-size: 24px;
+}
+
+/* Dashboard Header & Search */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-5);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.header-search {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.header-search .material-symbols-rounded {
+    position: absolute;
+    left: var(--space-2);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 20px;
+}
+
+.header-search input {
+    width: 100%;
+    padding: 12px 12px 12px 48px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    background: var(--color-neutral-95);
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.header-search input:focus {
+    background: white;
+    border-color: var(--color-primary);
+    outline: none;
+}
+
+.user-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.user-info {
+    text-align: right;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0;
+    color: var(--color-primary-10);
+}
+
+.user-role {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
 }
 
 @media (max-width: 768px) {

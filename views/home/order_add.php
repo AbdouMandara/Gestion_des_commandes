@@ -3,37 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Passer une commande - Gestion des Commandes</title>
+    <title>Passer une commande | GestionPro</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
-<body>
-    <div class="container" style="max-width: 800px;">
-        <div style="margin-bottom: 32px;">
-            <a href="<?php echo BASE_URL; ?>/" class="btn btn-secondary" style="padding: 6px 16px; font-size: 12px; margin-bottom: 16px; gap: 6px; display: inline-flex; align-items: center;">
-                <span class="material-symbols-rounded" style="font-size: 18px;">arrow_back</span>
-                Retour
+<body class="bg-main">
+    <div class="container" style="max-width: 800px; padding-top: var(--space-5);">
+        <header style="margin-bottom: var(--space-5); display: flex; align-items: center; gap: var(--space-3);">
+            <a href="<?php echo BASE_URL; ?>/" class="avatar" style="width: 40px; height: 40px; background: white; border: 1px solid var(--border-subtle); color: var(--text-main); text-decoration: none;">
+                <span class="material-symbols-rounded" style="font-size: 20px;">arrow_back</span>
             </a>
-            <h1 style="font-size: 28px; font-weight: 800; color: var(--color-primary-10); letter-spacing: -1px;">Passer une commande</h1>
-        </div>
+            <div>
+                <h1 style="font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 2px;">Nouvelle Commande</h1>
+                <p class="text-muted">Sélectionnez vos articles pour valider votre achat.</p>
+            </div>
+        </header>
         
         <?php if (isset($error)): ?>
-            <div class="badge badge-danger" style="display: block; text-align: center; margin-bottom: 24px; padding: 12px;"><?php echo $error; ?></div>
+            <div class="badge badge-danger" style="display: block; text-align: center; margin-bottom: var(--space-4); padding: var(--space-2); border-radius: var(--radius-md);">
+                <?php echo $error; ?>
+            </div>
         <?php endif; ?>
 
-        <div class="form-card" style="max-width: 800px; margin: 0;">
+        <div class="form-card" style="max-width: 100%; margin: 0; padding: var(--space-5);">
             <form action="<?php echo BASE_URL; ?>/order/create" method="POST" id="order-form">
-                <div style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="font-size: 14px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Sélection des produits</h3>
-                    <button type="button" id="add-product-btn" class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px; display: flex; align-items: center; gap: 8px;">
+                <div style="margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">Sélection des Produits</h3>
+                    <button type="button" id="add-product-btn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; gap: var(--space-1); background: white; border: 1px solid var(--border-subtle); color: var(--text-main);">
                         <span class="material-symbols-rounded" style="font-size: 18px;">add_circle</span>
-                        Ajouter un produit
+                        Ajouter un article
                     </button>
                 </div>
 
-                <div id="product-list" style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px;">
-                    <div class="product-row" style="display: flex; gap: 16px; align-items: flex-start;">
+                <div id="product-list" style="display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-5);">
+                    <div class="product-row" style="display: flex; gap: var(--space-3); align-items: flex-end;">
                         <div class="form-group" style="flex: 2; margin-bottom: 0;">
                             <label>Produit</label>
                             <select name="products[]" required>
@@ -49,17 +53,17 @@
                             <label>Quantité</label>
                             <input type="number" name="quantities[]" min="1" value="1" required>
                         </div>
-                        <div style="padding-top: 24px;">
-                            <button type="button" class="btn btn-danger remove-product" style="display: none; height: 44px; width: 44px; padding: 0; justify-content: center; align-items: center;">
+                        <div style="padding-bottom: 0;">
+                            <button type="button" class="btn btn-danger remove-product" style="display: none; height: 44px; width: 44px; padding: 0; background: white; border: 1px solid var(--color-danger-86); color: var(--color-danger);">
                                 <span class="material-symbols-rounded">delete</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary" style="flex: 2; padding: 14px;">Confirmer la commande</button>
-                    <a href="<?php echo BASE_URL; ?>/" class="btn btn-secondary" style="flex: 1; padding: 14px; text-align: center;">Annuler</a>
+                <div class="form-actions" style="border-top: 1px solid var(--border-subtle); padding-top: var(--space-5); margin-top: 0;">
+                    <button type="submit" class="btn btn-primary" style="flex: 2; padding: 14px; font-weight: 700;">Valider et Commander</button>
+                    <a href="<?php echo BASE_URL; ?>/" class="btn btn-secondary" style="flex: 1; padding: 14px; text-align: center; background: white; border: 1px solid var(--border-subtle); color: var(--text-main);">Annuler</a>
                 </div>
             </form>
         </div>
@@ -82,8 +86,8 @@
             const newRow = rows[0].cloneNode(true);
             newRow.querySelector('select').value = '';
             newRow.querySelector('input').value = '1';
-            newRow.querySelector('.remove-product').addEventListener('click', () => {
-                newRow.remove();
+            newRow.querySelector('.remove-product').addEventListener('click', (e) => {
+                e.target.closest('.product-row').remove();
                 updateRemoveButtons();
             });
             productList.appendChild(newRow);
@@ -92,12 +96,14 @@
 
         document.querySelectorAll('.remove-product').forEach(btn => {
             btn.addEventListener('click', (e) => {
+                const row = e.target.closest('.product-row');
                 if (productList.querySelectorAll('.product-row').length > 1) {
-                    e.target.closest('.product-row').remove();
+                    row.remove();
                     updateRemoveButtons();
                 }
             });
         });
+        updateRemoveButtons(); // Call on initial load
     </script>
 </body>
 </html>
