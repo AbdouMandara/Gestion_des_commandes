@@ -41,7 +41,7 @@ class AuthController extends Controller {
 
     public static function checkAuth($role = null) {
         if (!isset($_SESSION['user_id'])) {
-            header("Location: /login");
+            header("Location: ./login");
             exit();
         }
 

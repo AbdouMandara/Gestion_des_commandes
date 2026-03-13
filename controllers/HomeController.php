@@ -17,10 +17,10 @@ class HomeController extends Controller {
 
     public function index() {
         AuthController::checkAuth();
-        if ($_SESSION['role'] === 'admin') {
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
             $this->redirect('/admin/dashboard');
         }
-        $this->render('home/index', ['username' => $_SESSION['username']]);
+        $this->render('home/index', ['username' => $_SESSION['username'] ?? '']);
     }
 
     public function catalog() {

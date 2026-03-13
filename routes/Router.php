@@ -8,8 +8,14 @@ class Router {
     }
 
     public function dispatch($url) {
+        $basePath = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
         $url = parse_url($url, PHP_URL_PATH);
-        // Clean URL (remove base path if necessary, here we assume it's root handled by .htaccess)
+        
+        // Remove base path from URL if it exists
+        if (strpos($url, $basePath) === 0) {
+            $url = substr($url, strlen($basePath));
+        }
+
         $url = rtrim($url, '/');
         if (empty($url)) $url = '/';
 
