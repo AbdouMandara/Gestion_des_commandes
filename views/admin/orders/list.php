@@ -32,7 +32,7 @@
                     <input type="text" placeholder="Suivre une commande...">
                 </div>
                 <div class="user-nav">
-                    <div class="user-info"><p class="user-name">Admin Biyéni Loïc</p><p class="user-role">Administrateur</p></div>
+                    <div class="user-info"><p class="user-name">Admin Bieni Loic</p><p class="user-role">Administrateur</p></div>
                     <div class="avatar">A</div>
                 </div>
             </header>
