@@ -85,7 +85,7 @@
                                     <td class="text-right">
                                         <div style="display: flex; gap: var(--space-1); justify-content: flex-end; align-items: center;">
                                             <?php if ($order['status'] === 'en attente'): ?>
-                                                <a href="<?php echo BASE_URL; ?>/admin/orders/status?id=<?php echo $order['id']; ?>&status=en cours" class="btn btn-primary" style="padding: 6px 12px; font-size: 11px; background: #10b981; border: none;" title="Valider la commande">
+                                                <a href="<?php echo BASE_URL; ?>/admin/orders/status?id=<?php echo $order['id']; ?>&status=en cours" class="btn btn-primary" style="padding: 6px 12px; font-size: 11px; background: #10b981; color: white; border: none;" title="Valider la commande">
                                                     <span class="material-symbols-rounded" style="font-size: 18px;">check_circle</span>
                                                     Valider
                                                 </a>
@@ -93,13 +93,12 @@
                                                     <span class="material-symbols-rounded" style="font-size: 18px;">cancel</span>
                                                     Rejeter
                                                 </a>
+                                            <?php elseif ($order['status'] === 'rejetée'): ?>
+                                                <span style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-right: 8px;">Rejetée</span>
                                             <?php else: ?>
                                                 <select onchange="window.location.href='<?php echo BASE_URL; ?>/admin/orders/status?id=<?php echo $order['id']; ?>&status=' + this.value" class="btn" style="padding: 6px 10px; font-size: 11px; width: auto; background: var(--color-neutral-95); border: 1px solid var(--border-subtle); color: var(--text-main); font-weight: 600;">
-                                                    <option value="">Modifier statut...</option>
-                                                    <option value="en attente" <?php echo $order['status'] == 'en attente' ? 'selected' : ''; ?>>Attente</option>
                                                     <option value="en cours" <?php echo $order['status'] == 'en cours' ? 'selected' : ''; ?>>En cours</option>
                                                     <option value="livrée" <?php echo $order['status'] == 'livrée' ? 'selected' : ''; ?>>Livrée</option>
-                                                    <option value="rejetée" <?php echo $order['status'] == 'rejetée' ? 'selected' : ''; ?>>Rejetée</option>
                                                 </select>
                                             <?php endif; ?>
                                             <a href="<?php echo BASE_URL; ?>/admin/orders/delete?id=<?php echo $order['id']; ?>" class="btn btn-danger" style="padding: 6px 10px; background: white; border: 1px solid var(--color-danger-86); color: var(--color-danger);" onclick="return confirm('Confirmer la suppression ?')">
