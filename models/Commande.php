@@ -55,10 +55,6 @@ class Commande extends Model {
                 // Add to pivot table
                 $stmt = $this->db->prepare("INSERT INTO commande_produits (commande_id, produit_id, quantity, price_at_purchase) VALUES (?, ?, ?, ?)");
                 $stmt->execute([$commande_id, $product_id, $quantity, $price]);
-
-                // Update stock
-                $stmt = $this->db->prepare("UPDATE produits SET quantity = quantity - ? WHERE id = ?");
-                $stmt->execute([$quantity, $product_id]);
             }
 
             // Update total amount
@@ -76,6 +72,33 @@ class Commande extends Model {
     public function updateStatus($id, $status) {
         try {
             $this->db->beginTransaction();
+
+            // Check current status before update
+            $stmt = $this->db->prepare("SELECT status FROM commandes WHERE id = ?");
+            $stmt->execute([$id]);
+            $currentStatus = $stmt->fetchColumn();
+            
+            // Deduct stock if moving from "en attente" to "en cours" or "livrée"
+            if ($currentStatus === 'en attente' && in_array($status, ['en cours', 'livrée'])) {
+                $items = $this->getItems($id);
+                foreach ($items as $item) {
+                    $product_id = $item['produit_id'];
+                    $quantity = $item['quantity'];
+
+                    // Strict stock check again at validation time
+                    $stmtCheck = $this->db->prepare("SELECT quantity, name FROM produits WHERE id = ?");
+                    $stmtCheck->execute([$product_id]);
+                    $productVal = $stmtCheck->fetch();
+
+                    if (!$productVal || $productVal['quantity'] < $quantity) {
+                        throw new Exception("Stock insuffisant pour le produit: " . htmlspecialchars($productVal['name'] ?? 'Inconnu') . ". Impossible de valider.");
+                    }
+
+                    // Deduct stock
+                    $stmtUpdate = $this->db->prepare("UPDATE produits SET quantity = quantity - ? WHERE id = ?");
+                    $stmtUpdate->execute([$quantity, $product_id]);
+                }
+            }
             
             $stmt = $this->db->prepare("UPDATE commandes SET status = ? WHERE id = ?");
             $stmt->execute([$status, $id]);

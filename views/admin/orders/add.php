@@ -97,16 +97,18 @@
                         <div class="product-row">
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label>Article</label>
-                                <select name="products[]" required>
-                                    <option value="">-- Choisir un produit --</option>
+                                <select name="products[]" required class="product-select" onchange="updateMaxQuantity(this)">
+                                    <option value="" data-max="0">-- Choisir un produit --</option>
                                     <?php foreach ($products as $product): ?>
-                                        <option value="<?php echo $product['id']; ?>"><?php echo htmlspecialchars($product['name']); ?> (<?php echo number_format($product['price'], 2); ?> €)</option>
+                                        <option value="<?php echo $product['id']; ?>" data-max="<?php echo $product['quantity']; ?>" <?php echo $product['quantity'] <= 0 ? 'disabled' : ''; ?>>
+                                            <?php echo htmlspecialchars($product['name']); ?> (<?php echo number_format($product['price'], 2); ?> €) - Stock: <?php echo $product['quantity']; ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="form-group" style="margin-bottom: 0;">
                                 <label>Qté</label>
-                                <input type="number" name="quantities[]" min="1" value="1" required>
+                                <input type="number" name="quantities[]" min="1" value="1" required class="quantity-input" onchange="validateQuantity(this)" disabled>
                             </div>
                             <button type="button" class="btn btn-danger remove-product" style="display: none; height: 44px; width: 44px; padding: 0; justify-content: center; align-items: center; border: 1px solid var(--border-danger-subtle);">
                                 <span class="material-symbols-rounded">delete</span>
@@ -134,13 +136,46 @@
                 btn.style.display = rows.length > 1 ? 'flex' : 'none';
             });
         }
+        
+        function updateMaxQuantity(selectElement) {
+            const row = selectElement.closest('.product-row');
+            const qtyInput = row.querySelector('.quantity-input');
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            
+            if (selectElement.value === "") {
+                qtyInput.value = "1";
+                qtyInput.max = "";
+                qtyInput.disabled = true;
+            } else {
+                const maxVal = selectedOption.getAttribute('data-max');
+                qtyInput.disabled = false;
+                qtyInput.max = maxVal;
+                qtyInput.value = "1";
+            }
+        }
+        
+        function validateQuantity(inputElement) {
+            const maxVal = parseInt(inputElement.max, 10);
+            const currentVal = parseInt(inputElement.value, 10);
+            
+            if (currentVal > maxVal) {
+                alert("Erreur: La quantité demandée (" + currentVal + ") est supérieure au stock disponible (" + maxVal + ") pour ce produit.");
+                inputElement.value = maxVal;
+            } else if (currentVal < 1) {
+                inputElement.value = 1;
+            }
+        }
 
         addBtn.addEventListener('click', () => {
             const rows = productList.querySelectorAll('.product-row');
             const newRow = rows[0].cloneNode(true);
             
             newRow.querySelector('select').value = '';
-            newRow.querySelector('input').value = '1';
+            
+            const qtyInput = newRow.querySelector('input');
+            qtyInput.value = '1';
+            qtyInput.max = '';
+            qtyInput.disabled = true;
             
             newRow.querySelector('.remove-product').addEventListener('click', () => {
                 newRow.remove();
