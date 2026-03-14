@@ -26,18 +26,24 @@ class HomeController extends Controller {
     }
 
     public function index() {
-        AuthController::checkAuth();
-        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-            $this->redirect('/admin/dashboard');
+        if (isset($_SESSION['user_id'])) {
+            if ($_SESSION['role'] === 'admin') {
+                $this->redirect('/admin/dashboard');
+            } else {
+                // Client side
+                $client = $this->getClient();
+                $notifications = $client ? $this->notificationModel->getUnreadByClient($client['id']) : [];
+                
+                $this->render('home/index', [
+                    'username' => $_SESSION['username'] ?? '',
+                    'notifications' => $notifications
+                ]);
+            }
+        } else {
+            // Public mode
+            $products = $this->productModel->getAll();
+            $this->render('home/public', ['products' => $products]);
         }
-        
-        $client = $this->getClient();
-        $notifications = $client ? $this->notificationModel->getUnreadByClient($client['id']) : [];
-        
-        $this->render('home/index', [
-            'username' => $_SESSION['username'] ?? '',
-            'notifications' => $notifications
-        ]);
     }
 
     public function catalog() {

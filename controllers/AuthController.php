@@ -34,6 +34,54 @@ class AuthController extends Controller {
         }
     }
 
+    public function register() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+            $phone = $_POST['phone'] ?? '';
+            $address = $_POST['address'] ?? '';
+
+            if (empty($name) || empty($email) || empty($password)) {
+                $this->render('auth/register', ['error' => "Veuillez remplir les champs obligatoires."]);
+                return;
+            }
+
+            // Check if email/username already exists
+            if ($this->userModel->findByUsername($email)) {
+                $this->render('auth/register', ['error' => "Cette adresse e-mail est déjà utilisée."]);
+                return;
+            }
+
+            try {
+                // We assume user creation also generates a Client profile based on the user's instructions.
+                $this->userModel->create($email, $password, 'user');
+                $user = $this->userModel->findByUsername($email);
+
+                // Create associated client profile
+                require_once 'models/Client.php';
+                $clientModel = new Client();
+                $clientModel->create([
+                    'name' => $name,
+                    'email' => $email, // Using email as username
+                    'phone' => $phone,
+                    'address' => $address
+                ]);
+
+                // Auto login
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['role'] = $user['role'];
+
+                $this->redirect('/');
+            } catch (Exception $e) {
+                $this->render('auth/register', ['error' => "Erreur lors de l'inscription. Veuillez réessayer."]);
+            }
+        } else {
+            $this->render('auth/register');
+        }
+    }
+
     public function logout() {
         session_destroy();
         $this->redirect('/login');
