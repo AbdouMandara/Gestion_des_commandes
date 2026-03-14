@@ -95,6 +95,8 @@
                                                 </a>
                                             <?php elseif ($order['status'] === 'rejetée'): ?>
                                                 <span style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-right: 8px;">Rejetée</span>
+                                            <?php elseif ($order['status'] === 'livrée'): ?>
+                                                <span style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-right: 8px;">Livrée</span>
                                             <?php else: ?>
                                                 <select onchange="window.location.href='<?php echo BASE_URL; ?>/admin/orders/status?id=<?php echo $order['id']; ?>&status=' + this.value" class="btn" style="padding: 6px 10px; font-size: 11px; width: auto; background: var(--color-neutral-95); border: 1px solid var(--border-subtle); color: var(--text-main); font-weight: 600;">
                                                     <option value="en cours" <?php echo $order['status'] == 'en cours' ? 'selected' : ''; ?>>En cours</option>
