@@ -96,5 +96,20 @@
                 </table>
             </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('.search-bar input');
+            const tableRows = document.querySelectorAll('.product-table tbody tr');
+
+            searchInput.addEventListener('input', function(e) {
+                const term = e.target.value.toLowerCase();
+                
+                tableRows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(term) ? '' : 'none';
+                });
+            });
+        });
+    </script>
 </body>
 </html>

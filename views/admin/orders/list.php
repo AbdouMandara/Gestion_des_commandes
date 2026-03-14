@@ -32,7 +32,7 @@
                     <input type="text" placeholder="Suivre une commande...">
                 </div>
                 <div class="user-nav">
-                    <div class="user-info"><p class="user-name">Admin Abdel</p><p class="user-role">Administrateur</p></div>
+                    <div class="user-info"><p class="user-name">Admin Biyéni Loïc</p><p class="user-role">Administrateur</p></div>
                     <div class="avatar">A</div>
                 </div>
             </header>
@@ -115,5 +115,20 @@
                 </table>
             </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('.search-bar input');
+            const tableRows = document.querySelectorAll('.data-table tbody tr');
+
+            searchInput.addEventListener('input', function(e) {
+                const term = e.target.value.toLowerCase();
+                
+                tableRows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(term) ? '' : 'none';
+                });
+            });
+        });
+    </script>
 </body>
 </html>

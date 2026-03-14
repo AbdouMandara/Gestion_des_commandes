@@ -59,7 +59,7 @@
                 
                 <div class="user-nav">
                     <div class="user-info">
-                        <p class="user-name">Admin Abdel</p>
+                        <p class="user-name">Admin Biyéni Loïc</p>
                         <p class="user-role">Administrateur</p>
                     </div>
                     <div class="avatar">A</div>
