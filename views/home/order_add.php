@@ -44,7 +44,7 @@
                                 <option value="" data-max="0">-- Choisir un produit --</option>
                                 <?php foreach ($products as $product): ?>
                                     <option value="<?php echo $product['id']; ?>" data-max="<?php echo $product['quantity']; ?>" <?php echo $product['quantity'] <= 0 ? 'disabled' : ''; ?>>
-                                        <?php echo htmlspecialchars($product['name']); ?> (<?php echo number_format($product['price'], 2); ?> €) - Stock: <?php echo $product['quantity']; ?>
+                                        <?php echo htmlspecialchars($product['name']); ?> (<?php echo number_format($product['price'], 2); ?> FCFA) - Stock: <?php echo $product['quantity']; ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>

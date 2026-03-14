@@ -59,7 +59,7 @@
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3);">
                             <div class="form-group">
-                                <label for="price">Prix unitaire (€)</label>
+                                <label for="price">Prix unitaire (FCFA)</label>
                                 <input type="number" step="0.01" id="price" name="price" value="<?php echo htmlspecialchars($product['price']); ?>" required>
                             </div>
                             <div class="form-group">

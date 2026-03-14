@@ -79,7 +79,7 @@
                             <span class="material-symbols-rounded">payments</span>
                         </div>
                     </div>
-                    <div class="value"><?php echo number_format($totalRevenue, 2); ?> €</div>
+                    <div class="value"><?php echo number_format($totalRevenue, 2); ?> FCFA</div>
                 </div>
                 
                 <div class="stat-card">
@@ -141,7 +141,7 @@
                                                 <?php echo htmlspecialchars($order['client_name']); ?>
                                             </div>
                                         </td>
-                                        <td style="font-weight: 600;"><?php echo number_format($order['total_amount'], 2); ?> €</td>
+                                        <td style="font-weight: 600;"><?php echo number_format($order['total_amount'], 2); ?> FCFA</td>
                                         <td>
                                             <span class="badge <?php echo ($order['status'] === 'livrée' ? 'badge-success' : ($order['status'] === 'en cours' ? 'badge-warning' : '')); ?>">
                                                 <?php echo ucfirst($order['status']); ?>

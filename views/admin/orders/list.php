@@ -75,7 +75,7 @@
                                             <span style="font-weight: 600;"><?php echo htmlspecialchars($order['client_name']); ?></span>
                                         </div>
                                     </td>
-                                    <td style="font-weight: 700; color: var(--color-primary-10);"><?php echo number_format($order['total_amount'], 2); ?> €</td>
+                                    <td style="font-weight: 700; color: var(--color-primary-10);"><?php echo number_format($order['total_amount'], 2); ?> FCFA</td>
                                     <td>
                                         <span class="badge <?php echo ($order['status'] === 'livrée' ? 'badge-success' : ($order['status'] === 'en cours' ? 'badge-warning' : ($order['status'] === 'rejetée' ? 'badge-danger' : ''))); ?>">
                                             <?php echo ucfirst($order['status']); ?>

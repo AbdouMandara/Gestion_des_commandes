@@ -69,7 +69,7 @@
                             <tr>
                                 <td style="font-weight: 800; color: var(--color-primary-10);">#<?php echo $order['id']; ?></td>
                                 <td class="text-muted"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></td>
-                                <td style="font-weight: 700; color: var(--color-primary-10);"><?php echo number_format($order['total_amount'], 2); ?> €</td>
+                                <td style="font-weight: 700; color: var(--color-primary-10);"><?php echo number_format($order['total_amount'], 2); ?> FCFA</td>
                                 <td>
                                     <span class="badge <?php 
                                         echo ($order['status'] === 'livrée' ? 'badge-success' : 

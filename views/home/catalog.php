@@ -32,7 +32,7 @@
                         </p>
                     </div>
                     <div class="card-footer" style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 18px; font-weight: 800; color: var(--color-primary-10);"><?php echo number_format($product['price'], 2); ?> €</span>
+                        <span style="font-size: 18px; font-weight: 800; color: var(--color-primary-10);"><?php echo number_format($product['price'], 2); ?> FCFA</span>
                         <span class="badge <?php echo $product['quantity'] > 0 ? 'badge-success' : 'badge-danger'; ?>" style="font-size: 11px;">
                             <?php echo $product['quantity'] > 0 ? $product['quantity'] . ' en stock' : 'Rupture'; ?>
                         </span>
