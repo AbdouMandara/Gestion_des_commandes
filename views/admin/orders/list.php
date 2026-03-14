@@ -77,19 +77,31 @@
                                     </td>
                                     <td style="font-weight: 700; color: var(--color-primary-10);"><?php echo number_format($order['total_amount'], 2); ?> €</td>
                                     <td>
-                                        <span class="badge <?php echo ($order['status'] === 'livrée' ? 'badge-success' : ($order['status'] === 'en cours' ? 'badge-warning' : '')); ?>">
+                                        <span class="badge <?php echo ($order['status'] === 'livrée' ? 'badge-success' : ($order['status'] === 'en cours' ? 'badge-warning' : ($order['status'] === 'rejetée' ? 'badge-danger' : ''))); ?>">
                                             <?php echo ucfirst($order['status']); ?>
                                         </span>
                                     </td>
                                     <td class="text-muted" style="font-size: 13px;"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></td>
                                     <td class="text-right">
                                         <div style="display: flex; gap: var(--space-1); justify-content: flex-end; align-items: center;">
-                                            <select onchange="window.location.href='<?php echo BASE_URL; ?>/admin/orders/status?id=<?php echo $order['id']; ?>&status=' + this.value" class="btn" style="padding: 6px 10px; font-size: 11px; width: auto; background: var(--color-neutral-95); border: 1px solid var(--border-subtle); color: var(--text-main); font-weight: 600;">
-                                                <option value="">Statut...</option>
-                                                <option value="en attente" <?php echo $order['status'] == 'en attente' ? 'selected' : ''; ?>>Attente</option>
-                                                <option value="en cours" <?php echo $order['status'] == 'en cours' ? 'selected' : ''; ?>>En cours</option>
-                                                <option value="livrée" <?php echo $order['status'] == 'livrée' ? 'selected' : ''; ?>>Livrée</option>
-                                            </select>
+                                            <?php if ($order['status'] === 'en attente'): ?>
+                                                <a href="<?php echo BASE_URL; ?>/admin/orders/status?id=<?php echo $order['id']; ?>&status=en cours" class="btn btn-primary" style="padding: 6px 12px; font-size: 11px; background: #10b981; border: none;" title="Valider la commande">
+                                                    <span class="material-symbols-rounded" style="font-size: 18px;">check_circle</span>
+                                                    Valider
+                                                </a>
+                                                <a href="<?php echo BASE_URL; ?>/admin/orders/status?id=<?php echo $order['id']; ?>&status=rejetée" class="btn btn-danger" style="padding: 6px 12px; font-size: 11px; background: #ef4444; border: none; color: white;" title="Rejeter la commande">
+                                                    <span class="material-symbols-rounded" style="font-size: 18px;">cancel</span>
+                                                    Rejeter
+                                                </a>
+                                            <?php else: ?>
+                                                <select onchange="window.location.href='<?php echo BASE_URL; ?>/admin/orders/status?id=<?php echo $order['id']; ?>&status=' + this.value" class="btn" style="padding: 6px 10px; font-size: 11px; width: auto; background: var(--color-neutral-95); border: 1px solid var(--border-subtle); color: var(--text-main); font-weight: 600;">
+                                                    <option value="">Modifier statut...</option>
+                                                    <option value="en attente" <?php echo $order['status'] == 'en attente' ? 'selected' : ''; ?>>Attente</option>
+                                                    <option value="en cours" <?php echo $order['status'] == 'en cours' ? 'selected' : ''; ?>>En cours</option>
+                                                    <option value="livrée" <?php echo $order['status'] == 'livrée' ? 'selected' : ''; ?>>Livrée</option>
+                                                    <option value="rejetée" <?php echo $order['status'] == 'rejetée' ? 'selected' : ''; ?>>Rejetée</option>
+                                                </select>
+                                            <?php endif; ?>
                                             <a href="<?php echo BASE_URL; ?>/admin/orders/delete?id=<?php echo $order['id']; ?>" class="btn btn-danger" style="padding: 6px 10px; background: white; border: 1px solid var(--color-danger-86); color: var(--color-danger);" onclick="return confirm('Confirmer la suppression ?')">
                                                 <span class="material-symbols-rounded" style="font-size: 18px;">delete</span>
                                             </a>

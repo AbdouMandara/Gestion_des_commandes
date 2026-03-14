@@ -23,6 +23,28 @@
             </a>
         </header>
 
+        <?php if (!empty($notifications)): ?>
+            <div style="margin-bottom: var(--space-5);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3);">
+                    <h2 style="font-size: 16px; font-weight: 700; color: var(--color-primary-10);">Notifications Récentes</h2>
+                    <a href="<?php echo BASE_URL; ?>/notifications/read" style="font-size: 13px; color: var(--color-primary); text-decoration: none; font-weight: 500;">Marquer tout comme lu</a>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+                    <?php foreach ($notifications as $notif): ?>
+                        <div style="padding: var(--space-3); background: white; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <p style="font-size: 14px; margin-bottom: 4px;"><?php echo htmlspecialchars($notif['message']); ?></p>
+                                <span style="font-size: 11px; color: var(--text-muted);"><?php echo date('d/m/Y H:i', strtotime($notif['created_at'])); ?></span>
+                            </div>
+                            <a href="<?php echo BASE_URL; ?>/notifications/read?id=<?php echo $notif['id']; ?>" class="btn" style="padding: 4px; color: var(--text-muted); background: var(--color-neutral-95); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);" title="Marquer comme lu">
+                                <span class="material-symbols-rounded" style="font-size: 16px;">check</span>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <div class="grid grid-3" style="gap: var(--space-4);">
             <a href="<?php echo BASE_URL; ?>/catalog" class="card" style="text-align: center; padding: var(--space-6) var(--space-4);">
                 <div class="avatar" style="width: 56px; height: 56px; margin: 0 auto var(--space-3); background: var(--color-neutral-95); color: var(--color-primary); border-radius: 12px; border: 1px solid var(--border-subtle);">

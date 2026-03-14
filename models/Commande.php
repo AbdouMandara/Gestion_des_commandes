@@ -74,8 +74,45 @@ class Commande extends Model {
     }
 
     public function updateStatus($id, $status) {
-        $stmt = $this->db->prepare("UPDATE commandes SET status = ? WHERE id = ?");
-        return $stmt->execute([$status, $id]);
+        try {
+            $this->db->beginTransaction();
+            
+            $stmt = $this->db->prepare("UPDATE commandes SET status = ? WHERE id = ?");
+            $stmt->execute([$status, $id]);
+
+            // Get client_id for notification
+            $stmt = $this->db->prepare("SELECT client_id FROM commandes WHERE id = ?");
+            $stmt->execute([$id]);
+            $res = $stmt->fetch();
+            
+            if ($res) {
+                $client_id = $res['client_id'];
+                $message = "";
+                switch($status) {
+                    case 'en cours':
+                        $message = "Votre commande #$id a été prise en compte et est en cours de traitement.";
+                        break;
+                    case 'livrée':
+                        $message = "Votre commande #$id a été livrée. Merci de votre confiance !";
+                        break;
+                    case 'rejetée':
+                        $message = "Désolé, votre commande #$id a été rejetée. Contactez le support pour plus d'informations.";
+                        break;
+                }
+
+                if ($message) {
+                    require_once 'models/Notification.php';
+                    $notifModel = new Notification();
+                    $notifModel->create($client_id, $id, $message);
+                }
+            }
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
     }
 
     public function delete($id) {
