@@ -16,6 +16,11 @@ class AdminController extends Controller {
         $this->orderModel = new Commande();
     }
 
+    private function getPendingOrdersCount() {
+        $stmt = Database::getInstance()->query("SELECT COUNT(*) FROM commandes WHERE status = 'en attente'");
+        return $stmt->fetchColumn();
+    }
+
     public function index() {
         AuthController::checkAuth('admin');
         
@@ -37,7 +42,8 @@ class AdminController extends Controller {
             'productCount' => $productCount,
             'orderCount' => $orderCount,
             'recentOrders' => $recentOrders,
-            'totalRevenue' => $totalRevenue
+            'totalRevenue' => $totalRevenue,
+            'pendingOrdersCount' => $this->getPendingOrdersCount()
         ]);
     }
 
@@ -45,7 +51,7 @@ class AdminController extends Controller {
     public function clientsList() {
         AuthController::checkAuth('admin');
         $clients = $this->clientModel->getAll();
-        $this->render('admin/clients/list', ['clients' => $clients]);
+        $this->render('admin/clients/list', ['clients' => $clients, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
     }
 
     public function clientAdd() {
@@ -54,7 +60,7 @@ class AdminController extends Controller {
             $this->clientModel->create($_POST);
             $this->redirect('/admin/clients');
         } else {
-            $this->render('admin/clients/add');
+            $this->render('admin/clients/add', ['pendingOrdersCount' => $this->getPendingOrdersCount()]);
         }
     }
 
@@ -68,7 +74,7 @@ class AdminController extends Controller {
             $this->redirect('/admin/clients');
         } else {
             $client = $this->clientModel->getById($id);
-            $this->render('admin/clients/edit', ['client' => $client]);
+            $this->render('admin/clients/edit', ['client' => $client, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
         }
     }
 
@@ -85,7 +91,7 @@ class AdminController extends Controller {
     public function productsList() {
         AuthController::checkAuth('admin');
         $products = $this->productModel->getAll();
-        $this->render('admin/products/list', ['products' => $products]);
+        $this->render('admin/products/list', ['products' => $products, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
     }
 
     public function productAdd() {
@@ -94,7 +100,7 @@ class AdminController extends Controller {
             $this->productModel->create($_POST);
             $this->redirect('/admin/products');
         } else {
-            $this->render('admin/products/add');
+            $this->render('admin/products/add', ['pendingOrdersCount' => $this->getPendingOrdersCount()]);
         }
     }
 
@@ -108,7 +114,7 @@ class AdminController extends Controller {
             $this->redirect('/admin/products');
         } else {
             $product = $this->productModel->getById($id);
-            $this->render('admin/products/edit', ['product' => $product]);
+            $this->render('admin/products/edit', ['product' => $product, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
         }
     }
 
@@ -125,7 +131,7 @@ class AdminController extends Controller {
     public function ordersList() {
         AuthController::checkAuth('admin');
         $orders = $this->orderModel->getAll();
-        $this->render('admin/orders/list', ['orders' => $orders]);
+        $this->render('admin/orders/list', ['orders' => $orders, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
     }
 
     public function orderAdd() {
@@ -148,12 +154,12 @@ class AdminController extends Controller {
                 $error = $e->getMessage();
                 $clients = $this->clientModel->getAll();
                 $products = $this->productModel->getAll();
-                $this->render('admin/orders/add', ['clients' => $clients, 'products' => $products, 'error' => $error]);
+                $this->render('admin/orders/add', ['clients' => $clients, 'products' => $products, 'error' => $error, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
             }
         } else {
             $clients = $this->clientModel->getAll();
             $products = $this->productModel->getAll();
-            $this->render('admin/orders/add', ['clients' => $clients, 'products' => $products]);
+            $this->render('admin/orders/add', ['clients' => $clients, 'products' => $products, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
         }
     }
 

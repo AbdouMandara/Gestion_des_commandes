@@ -37,7 +37,10 @@
                     <li>
                         <a href="<?php echo BASE_URL; ?>/admin/orders">
                             <span class="material-symbols-rounded">shopping_cart</span>
-                            Commandes
+                            <span style="flex-grow: 1;">Commandes</span>
+                            <?php if (isset($pendingOrdersCount) && $pendingOrdersCount > 0): ?>
+                                <span class="badge badge-danger" style="padding: 2px 6px; font-size: 11px;"><?php echo $pendingOrdersCount; ?></span>
+                            <?php endif; ?>
                         </a>
                     </li>
                     <li style="margin-top: auto; padding-top: var(--space-5);">

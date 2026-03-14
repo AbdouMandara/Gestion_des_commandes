@@ -19,7 +19,13 @@
                     <li><a href="<?php echo BASE_URL; ?>/admin/dashboard"><span class="material-symbols-rounded">dashboard</span>Tableau de bord</a></li>
                     <li><a href="<?php echo BASE_URL; ?>/admin/clients"><span class="material-symbols-rounded">group</span>Clients</a></li>
                     <li><a href="<?php echo BASE_URL; ?>/admin/products" class="active"><span class="material-symbols-rounded">inventory_2</span>Produits</a></li>
-                    <li><a href="<?php echo BASE_URL; ?>/admin/orders"><span class="material-symbols-rounded">shopping_cart</span>Commandes</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/admin/orders">
+                            <span class="material-symbols-rounded">shopping_cart</span>
+                            <span style="flex-grow: 1;">Commandes</span>
+                            <?php if (isset($pendingOrdersCount) && $pendingOrdersCount > 0): ?>
+                                <span class="badge badge-danger" style="padding: 2px 6px; font-size: 11px;"><?php echo $pendingOrdersCount; ?></span>
+                            <?php endif; ?>
+                        </a></li>
                     <li style="margin-top: auto; padding-top: var(--space-5);"><a href="<?php echo BASE_URL; ?>/logout" style="color: var(--color-danger);"><span class="material-symbols-rounded">logout</span>Déconnexion</a></li>
                 </ul>
             </nav>
@@ -76,7 +82,11 @@
                                     <td>
                                         <div style="display: flex; align-items: center; gap: var(--space-1);">
                                             <span style="width: 8px; height: 8px; border-radius: 50%; background: <?php echo $product['quantity'] > 5 ? 'var(--color-success)' : ($product['quantity'] > 0 ? 'var(--color-warning)' : 'var(--color-danger)'); ?>;"></span>
-                                            <span style="font-weight: 600; font-size: 13px;"><?php echo $product['quantity']; ?> unités</span>
+                                            <?php if ($product['quantity'] <= 0): ?>
+                                                <span class="badge badge-danger">Rupture (0)</span>
+                                            <?php else: ?>
+                                                <span style="font-weight: 600; font-size: 13px;"><?php echo $product['quantity']; ?> unités</span>
+                                            <?php endif; ?>
                                         </div>
                                     </td>
                                     <td class="text-right">

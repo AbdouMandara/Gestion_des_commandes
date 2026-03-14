@@ -19,7 +19,13 @@
                     <li><a href="<?php echo BASE_URL; ?>/admin/dashboard"><span class="material-symbols-rounded">dashboard</span>Tableau de bord</a></li>
                     <li><a href="<?php echo BASE_URL; ?>/admin/clients" class="active"><span class="material-symbols-rounded">group</span>Clients</a></li>
                     <li><a href="<?php echo BASE_URL; ?>/admin/products"><span class="material-symbols-rounded">inventory_2</span>Produits</a></li>
-                    <li><a href="<?php echo BASE_URL; ?>/admin/orders"><span class="material-symbols-rounded">shopping_cart</span>Commandes</a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/admin/orders">
+                            <span class="material-symbols-rounded">shopping_cart</span>
+                            <span style="flex-grow: 1;">Commandes</span>
+                            <?php if (isset($pendingOrdersCount) && $pendingOrdersCount > 0): ?>
+                                <span class="badge badge-danger" style="padding: 2px 6px; font-size: 11px;"><?php echo $pendingOrdersCount; ?></span>
+                            <?php endif; ?>
+                        </a></li>
                     <li style="margin-top: auto; padding-top: var(--space-5);"><a href="<?php echo BASE_URL; ?>/logout" style="color: var(--color-danger);"><span class="material-symbols-rounded">logout</span>Déconnexion</a></li>
                 </ul>
             </nav>
