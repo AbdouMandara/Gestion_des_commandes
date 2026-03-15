@@ -24,7 +24,7 @@
             <form action="<?php echo BASE_URL; ?>/login" method="POST">
                 <div class="form-group" style="margin-bottom: var(--space-4);">
                     <label for="username">Identifiant unique</label>
-                    <input type="text" id="username" name="username" required placeholder="Utilisateur" autofocus>
+                    <input type="text" id="username" name="email" required placeholder="e-mail ..." autofocus>
                 </div>
                 <div class="form-group" style="margin-bottom: var(--space-5);">
                     <label for="password">Mot de passe sécurisé</label>
@@ -37,6 +37,10 @@
             </form>
             
             <div style="margin-top: var(--space-6); text-align: center; border-top: 1px solid var(--border-subtle); padding-top: var(--space-4);">
+                <a href="<?php echo BASE_URL; ?>/" class="btn btn-secondary" style="font-size: 13px; margin-bottom: var(--space-2); display: inline-block;">
+                    <span class="material-symbols-rounded" style="vertical-align: middle; font-size: 18px; margin-right: 4px;">home</span>
+                    Retour à l'accueil
+                </a>
                 <p class="text-muted" style="font-size: 11px;">&copy; <?php echo date('Y'); ?> GestionPro. Tous droits réservés.</p>
             </div>
         </div>

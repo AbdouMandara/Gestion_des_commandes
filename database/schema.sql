@@ -4,10 +4,12 @@ USE gestion_commandes;
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'user') DEFAULT 'user',
+    role ENUM('admin', 'client') DEFAULT 'client',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 CREATE TABLE IF NOT EXISTS clients (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -48,4 +50,4 @@ CREATE TABLE IF NOT EXISTS commande_produits (
 
 -- Insert admin user (password: admin123)
 -- In a real app, use password_hash(). This is just for initial setup.
-INSERT INTO users (username, password, role) VALUES ('admin', '$2y$10$w8Wz9M..z.c.z.c.z.c.z.c.z.c.z.c.z.c.z.c.z.c.z.', 'admin');
+INSERT INTO users (username, email, password, role) VALUES ('admin', 'admin@gestionpro.com', '$2y$10$w8Wz9M..z.c.z.c.z.c.z.c.z.c.z.c.z.c.z.c.z.c.z.', 'admin');

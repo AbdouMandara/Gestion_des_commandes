@@ -10,14 +10,14 @@ class AuthController extends Controller {
 
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $username = $_POST['username'] ?? '';
+            $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            $user = $this->userModel->findByUsername($username);
+            $user = $this->userModel->findByEmail($email);
 
             if ($user && password_verify($password, $user['password'])) {
                 $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
+                $_SESSION['email'] = $user['email'];
                 $_SESSION['role'] = $user['role'];
 
                 if ($user['role'] === 'admin') {
@@ -47,30 +47,31 @@ class AuthController extends Controller {
                 return;
             }
 
-            // Check if email/username already exists
-            if ($this->userModel->findByUsername($email)) {
+            // Check if email already exists
+            if ($this->userModel->findByEmail($email)) {
                 $this->render('auth/register', ['error' => "Cette adresse e-mail est déjà utilisée."]);
                 return;
             }
 
             try {
                 // We assume user creation also generates a Client profile based on the user's instructions.
-                $this->userModel->create($email, $password, 'user');
-                $user = $this->userModel->findByUsername($email);
+                $this->userModel->create($name, $email, $password, 'client');
+                $user = $this->userModel->findByEmail($email);
+
 
                 // Create associated client profile
                 require_once 'models/Client.php';
                 $clientModel = new Client();
                 $clientModel->create([
                     'name' => $name,
-                    'email' => $email, // Using email as username
+                    'email' => $email, // Using email
                     'phone' => $phone,
                     'address' => $address
                 ]);
 
                 // Auto login
                 $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
+                $_SESSION['email'] = $user['email'];
                 $_SESSION['role'] = $user['role'];
 
                 $this->redirect('/');

@@ -21,7 +21,7 @@ class HomeController extends Controller {
     private function getClient() {
         if (!isset($_SESSION['username'])) return null;
         $stmt = Database::getInstance()->prepare("SELECT id FROM clients WHERE email = ?");
-        $stmt->execute([$_SESSION['username'] . "@example.com"]);
+        $stmt->execute(["Root@gmaul.com"]);
         return $stmt->fetch();
     }
 
