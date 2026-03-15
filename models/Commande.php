@@ -79,7 +79,7 @@ class Commande extends Model {
             $currentStatus = $stmt->fetchColumn();
             
             // Deduct stock if moving from "en attente" to "en cours" or "livrée"
-            if ($currentStatus === 'en attente' && in_array($status, ['en cours', 'livrée'])) {
+            if ($currentStatus === 'en attente' && in_array($status, ['en cours', 'livree'])) {
                 $items = $this->getItems($id);
                 foreach ($items as $item) {
                     $product_id = $item['produit_id'];
@@ -115,10 +115,10 @@ class Commande extends Model {
                     case 'en cours':
                         $message = "Votre commande #$id a été prise en compte et est en cours de traitement.";
                         break;
-                    case 'livrée':
+                    case 'livree':
                         $message = "Votre commande #$id a été livrée. Merci de votre confiance !";
                         break;
-                    case 'rejetée':
+                    case 'rejetee':
                         $message = "Désolé, votre commande #$id a été rejetée. Contactez le support pour plus d'informations.";
                         break;
                 }

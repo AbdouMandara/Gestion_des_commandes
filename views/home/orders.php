@@ -71,12 +71,13 @@
                                 <td class="text-muted"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></td>
                                 <td style="font-weight: 700; color: var(--color-primary-10);"><?php echo number_format($order['total_amount'], 2); ?> FCFA</td>
                                 <td>
-                                    <span class="badge <?php 
-                                        echo ($order['status'] === 'livrée' ? 'badge-success' : 
-                                             ($order['status'] === 'en cours' ? 'badge-warning' : 
-                                             ($order['status'] === 'rejetée' ? 'badge-danger' : ''))); 
-                                    ?>">
-                                        <?php echo ucfirst($order['status']); ?>
+                                    <?php 
+                                        $labels = ['livree' => 'Livrée', 'rejetee' => 'Rejetée', 'en cours' => 'En cours', 'en attente' => 'En attente'];
+                                        $badges = ['livree' => 'badge-success', 'en cours' => 'badge-warning', 'rejetee' => 'badge-danger'];
+                                        $s = $order['status'];
+                                    ?>
+                                    <span class="badge <?php echo $badges[$s] ?? ''; ?>">
+                                        <?php echo $labels[$s] ?? ucfirst($s); ?>
                                     </span>
                                 </td>
                             </tr>

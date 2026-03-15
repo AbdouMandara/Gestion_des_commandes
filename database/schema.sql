@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS commandes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     client_id INT NOT NULL,
     total_amount DECIMAL(10, 2) DEFAULT 0.00,
-    status ENUM('en attente', 'en cours', 'livrée') DEFAULT 'en attente',
+    status ENUM('en attente', 'en cours', 'livree', 'rejetee') DEFAULT 'en attente',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
 );
