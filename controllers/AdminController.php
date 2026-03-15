@@ -37,7 +37,7 @@ class AdminController extends Controller {
         $totalRevenue = $stmt->fetchColumn() ?: 0;
 
         $this->render('admin/dashboard', [
-            'username' => $_SESSION['username'],
+            'username' => $_SESSION['email'] ?? '',
             'clientCount' => $clientCount,
             'productCount' => $productCount,
             'orderCount' => $orderCount,

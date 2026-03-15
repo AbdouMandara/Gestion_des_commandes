@@ -59,6 +59,3 @@ CREATE TABLE IF NOT EXISTS notifications (
     FOREIGN KEY (commande_id) REFERENCES commandes(id) ON DELETE SET NULL
 );
 
--- Insert admin user (password: admin123)
--- In a real app, use password_hash(). This is just for initial setup.
-INSERT INTO users (username, email, password, role) VALUES ('admin', 'admin@gestionpro.com', '$2y$10$w8Wz9M..z.c.z.c.z.c.z.c.z.c.z.c.z.c.z.c.z.c.z.', 'admin');
