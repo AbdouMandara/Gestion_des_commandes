@@ -19,9 +19,9 @@ class HomeController extends Controller {
     }
 
     private function getClient() {
-        if (!isset($_SESSION['username'])) return null;
+        if (!isset($_SESSION['email'])) return null;
         $stmt = Database::getInstance()->prepare("SELECT id FROM clients WHERE email = ?");
-        $stmt->execute(["Root@gmaul.com"]);
+        $stmt->execute([$_SESSION['email']]);
         return $stmt->fetch();
     }
 
@@ -35,7 +35,7 @@ class HomeController extends Controller {
                 $notifications = $client ? $this->notificationModel->getUnreadByClient($client['id']) : [];
                 
                 $this->render('home/index', [
-                    'username' => $_SESSION['username'] ?? '',
+                    'username' => $_SESSION['username'] ?? '', // Using email as username display for now
                     'notifications' => $notifications
                 ]);
             }
