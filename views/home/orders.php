@@ -55,6 +55,7 @@
                         <th>Date d'émission</th>
                         <th>Montant HT</th>
                         <th>État actuel</th>
+                        <th class="text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,6 +81,12 @@
                                         <?php echo $labels[$s] ?? ucfirst($s); ?>
                                     </span>
                                 </td>
+                                <td class="text-right">
+                                    <button onclick="showOrderDetail(<?php echo $order['id']; ?>)" class="btn" style="padding: 6px 10px; background: white; border: 1px solid var(--border-subtle); color: var(--color-primary-10);" title="Voir le détail">
+                                        <span class="material-symbols-rounded" style="font-size: 18px;">visibility</span>
+                                        Détails
+                                    </button>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
@@ -87,5 +94,78 @@
             </table>
         </div>
     </div>
+
+<!-- MODAL DÉTAIL COMMANDE -->
+<div id="orderModal" style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.45); backdrop-filter:blur(4px); align-items:center; justify-content:center;">
+    <div style="background:white; border-radius:16px; width:100%; max-width:620px; max-height:85vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.25); margin:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:20px 24px; border-bottom:1px solid #e5e7eb;">
+            <div>
+                <h2 id="modalTitle" style="font-size:18px; font-weight:800; letter-spacing:-0.5px; margin:0;">Commande #—</h2>
+                <p id="modalDate" style="font-size:12px; color:#6b7280; margin:2px 0 0;"></p>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+                <span id="modalStatus" class="badge"></span>
+                <button onclick="closeModal()" style="background:none; border:none; cursor:pointer; color:#6b7280; display:flex; align-items:center;">
+                    <span class="material-symbols-rounded" style="font-size:24px;">close</span>
+                </button>
+            </div>
+        </div>
+        <div style="padding:24px;">
+            <p style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#6b7280; margin:0 0 12px;">Produits commandés</p>
+            <table style="width:100%; border-collapse:collapse;">
+                <thead>
+                    <tr style="font-size:11px; text-transform:uppercase; color:#9ca3af; letter-spacing:0.04em;">
+                        <th style="text-align:left; padding:0 0 8px;">Produit</th>
+                        <th style="text-align:center; padding:0 0 8px;">Qté</th>
+                        <th style="text-align:right; padding:0 0 8px;">Prix unit.</th>
+                        <th style="text-align:right; padding:0 0 8px;">Sous-total</th>
+                    </tr>
+                </thead>
+                <tbody id="modalItems"></tbody>
+            </table>
+            <div style="margin-top:16px; padding-top:16px; border-top:2px solid #f3f4f6; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:700; font-size:14px;">Total commande</span>
+                <span id="modalTotal" style="font-weight:800; font-size:18px; color:#1e1e2e;"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const BASE = '<?php echo BASE_URL; ?>';
+    const statusBadges = { 'en attente': '', 'en cours': 'badge-warning', 'livree': 'badge-success', 'rejetee': 'badge-danger' };
+    const statusLabels = { 'en attente': 'En attente', 'en cours': 'En cours', 'livree': 'Livrée', 'rejetee': 'Rejetée' };
+
+    function showOrderDetail(id) {
+        fetch(BASE + '/orders/detail?id=' + id)
+            .then(r => r.json())
+            .then(data => {
+                if(data.error) { alert(data.error); return; }
+                const o = data.order;
+                document.getElementById('modalTitle').textContent = 'Commande #' + o.id;
+                document.getElementById('modalDate').textContent = 'Passée le ' + new Date(o.created_at).toLocaleDateString('fr-FR');
+                const st = document.getElementById('modalStatus');
+                st.textContent = statusLabels[o.status] || o.status;
+                st.className = 'badge ' + (statusBadges[o.status] || '');
+                document.getElementById('modalTotal').textContent = parseFloat(o.total_amount).toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' FCFA';
+                let rows = '';
+                data.items.forEach(item => {
+                    const sub = (item.price_at_purchase * item.quantity).toFixed(2);
+                    rows += `<tr style="border-top:1px solid #f3f4f6;">
+                        <td style="padding:10px 0; font-weight:600;">${item.product_name}</td>
+                        <td style="text-align:center; color:#6b7280;">${item.quantity}</td>
+                        <td style="text-align:right; color:#6b7280;">${parseFloat(item.price_at_purchase).toLocaleString('fr-FR',{minimumFractionDigits:2})} FCFA</td>
+                        <td style="text-align:right; font-weight:700;">${parseFloat(sub).toLocaleString('fr-FR',{minimumFractionDigits:2})} FCFA</td>
+                    </tr>`;
+                });
+                document.getElementById('modalItems').innerHTML = rows;
+                const modal = document.getElementById('orderModal');
+                modal.style.display = 'flex';
+            });
+    }
+
+    function closeModal() { document.getElementById('orderModal').style.display = 'none'; }
+    document.getElementById('orderModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+</script>
 </body>
 </html>

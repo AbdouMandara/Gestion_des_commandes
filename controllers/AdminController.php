@@ -181,4 +181,26 @@ class AdminController extends Controller {
         }
         $this->redirect('/admin/orders');
     }
+
+    public function orderDetail() {
+        AuthController::checkAuth('admin');
+        $id = $_GET['id'] ?? null;
+        if (!$id) { http_response_code(400); echo json_encode(['error' => 'ID requis']); exit; }
+
+        $stmt = Database::getInstance()->prepare(
+            "SELECT c.id, c.total_amount, c.status, c.created_at, cl.name as client_name
+             FROM commandes c JOIN clients cl ON c.client_id = cl.id WHERE c.id = ?"
+        );
+        $stmt->execute([$id]);
+        $order = $stmt->fetch();
+
+        $items = $this->orderModel->getItems($id);
+
+        $statusLabels = ['en attente' => 'En attente', 'en cours' => 'En cours', 'livree' => 'Livrée', 'rejetee' => 'Rejetée'];
+        $order['status_label'] = $statusLabels[$order['status']] ?? ucfirst($order['status']);
+
+        header('Content-Type: application/json');
+        echo json_encode(['order' => $order, 'items' => $items]);
+        exit;
+    }
 }

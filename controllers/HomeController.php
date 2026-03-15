@@ -117,4 +117,32 @@ class HomeController extends Controller {
             $this->redirect('/');
         }
     }
+
+    public function orderDetail() {
+        AuthController::checkAuth();
+        $id = $_GET['id'] ?? null;
+        if (!$id) { http_response_code(400); echo json_encode(['error' => 'ID requis']); exit; }
+
+        // Ensure the order belongs to this client
+        $client = $this->getClient();
+        if (!$client) { http_response_code(403); echo json_encode(['error' => 'Accès refusé']); exit; }
+
+        $stmt = Database::getInstance()->prepare(
+            "SELECT c.id, c.total_amount, c.status, c.created_at
+             FROM commandes c WHERE c.id = ? AND c.client_id = ?"
+        );
+        $stmt->execute([$id, $client['id']]);
+        $order = $stmt->fetch();
+
+        if (!$order) { http_response_code(403); echo json_encode(['error' => 'Commande introuvable']); exit; }
+
+        $items = $this->orderModel->getItems($id);
+
+        $statusLabels = ['en attente' => 'En attente', 'en cours' => 'En cours', 'livree' => 'Livrée', 'rejetee' => 'Rejetée'];
+        $order['status_label'] = $statusLabels[$order['status']] ?? ucfirst($order['status']);
+
+        header('Content-Type: application/json');
+        echo json_encode(['order' => $order, 'items' => $items]);
+        exit;
+    }
 }

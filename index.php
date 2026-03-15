@@ -42,6 +42,8 @@ $router->add('/admin/orders', 'AdminController', 'ordersList');
 $router->add('/admin/orders/add', 'AdminController', 'orderAdd');
 $router->add('/admin/orders/status', 'AdminController', 'orderUpdateStatus');
 $router->add('/admin/orders/delete', 'AdminController', 'orderDelete');
+$router->add('/admin/orders/detail', 'AdminController', 'orderDetail');
+$router->add('/orders/detail', 'HomeController', 'orderDetail');
 
 // Dispatch request
 $url = $_SERVER['REQUEST_URI'] ?? '/';
