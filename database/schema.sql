@@ -48,6 +48,17 @@ CREATE TABLE IF NOT EXISTS commande_produits (
     FOREIGN KEY (produit_id) REFERENCES produits(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS notifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT NOT NULL,
+    commande_id INT,
+    message TEXT NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
+    FOREIGN KEY (commande_id) REFERENCES commandes(id) ON DELETE SET NULL
+);
+
 -- Insert admin user (password: admin123)
 -- In a real app, use password_hash(). This is just for initial setup.
 INSERT INTO users (username, email, password, role) VALUES ('admin', 'admin@gestionpro.com', '$2y$10$w8Wz9M..z.c.z.c.z.c.z.c.z.c.z.c.z.c.z.c.z.c.z.', 'admin');
