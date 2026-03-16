@@ -28,7 +28,7 @@ $router->add('/admin/dashboard', 'AdminController', 'index');
 // Clients CRUD
 $router->add('/admin/clients', 'AdminController', 'clientsList');
 $router->add('/admin/clients/add', 'AdminController', 'clientAdd');
-$router->add('/admin/clients/edit', 'AdminController', 'clientEdit');
+
 $router->add('/admin/clients/delete', 'AdminController', 'clientDelete');
 
 // Products CRUD

@@ -57,26 +57,32 @@ class AdminController extends Controller {
     public function clientAdd() {
         AuthController::checkAuth('admin');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->clientModel->create($_POST);
+            $name = $_POST['name'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+            $phone = $_POST['phone'] ?? '';
+            $address = $_POST['address'] ?? '';
+
+            if (!empty($name) && !empty($email) && !empty($password)) {
+                $userModel = new User();
+                // Create user first
+                $userModel->create($name, $email, $password, 'client');
+                
+                // Then create client profile
+                $this->clientModel->create([
+                    'name' => $name,
+                    'email' => $email,
+                    'phone' => $phone,
+                    'address' => $address
+                ]);
+            }
             $this->redirect('/admin/clients');
         } else {
             $this->render('admin/clients/add', ['pendingOrdersCount' => $this->getPendingOrdersCount()]);
         }
     }
 
-    public function clientEdit() {
-        AuthController::checkAuth('admin');
-        $id = $_GET['id'] ?? null;
-        if (!$id) $this->redirect('/admin/clients');
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->clientModel->update($id, $_POST);
-            $this->redirect('/admin/clients');
-        } else {
-            $client = $this->clientModel->getById($id);
-            $this->render('admin/clients/edit', ['client' => $client, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
-        }
-    }
 
     public function clientDelete() {
         AuthController::checkAuth('admin');

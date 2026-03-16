@@ -108,11 +108,11 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.querySelector('.search-bar input');
-            const tableRows = document.querySelectorAll('.product-table tbody tr');
+            const searchInput = document.querySelector('.header-search input');
+            const tableRows = document.querySelectorAll('tbody tr');
 
             searchInput.addEventListener('input', function(e) {
-                const term = e.target.value.toLowerCase();
+                const term = e.target.value.toLowerCase().trim();
                 
                 tableRows.forEach(row => {
                     const text = row.textContent.toLowerCase();

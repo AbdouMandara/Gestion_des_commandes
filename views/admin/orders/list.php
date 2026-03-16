@@ -204,5 +204,23 @@
     function closeModal() { document.getElementById('orderModal').style.display = 'none'; }
     document.getElementById('orderModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
 </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('.header-search input');
+            const tableRows = document.querySelectorAll('tbody tr:not(#modalItems *)'); // Exclude modal items if any
+
+            searchInput.addEventListener('input', function(e) {
+                const term = e.target.value.toLowerCase().trim();
+                
+                tableRows.forEach(row => {
+                    // Only filter rows that are in the main table body, not the modal
+                    if (!row.closest('#orderModal')) {
+                        const text = row.textContent.toLowerCase();
+                        row.style.display = text.includes(term) ? '' : 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -82,10 +82,7 @@
                                     <td class="text-muted"><?php echo htmlspecialchars($client['phone']); ?></td>
                                     <td class="text-right">
                                         <div style="display: flex; gap: var(--space-1); justify-content: flex-end;">
-                                            <a href="<?php echo BASE_URL; ?>/admin/clients/edit?id=<?php echo $client['id']; ?>" class="btn btn-secondary" style="padding: 6px 10px; background: white; border: 1px solid var(--border-subtle); color: var(--text-main);">
-                                                <span class="material-symbols-rounded" style="font-size: 18px;">edit</span>
-                                            </a>
-                                            <a href="<?php echo BASE_URL; ?>/admin/clients/delete?id=<?php echo $client['id']; ?>" class="btn btn-danger" style="padding: 6px 10px; background: white; border: 1px solid var(--color-danger-86); color: var(--color-danger);" onclick="return confirm('Supprimer ce client ?')">
+                                            <a href="<?php echo BASE_URL; ?>/admin/clients/delete?id=<?php echo $client['id']; ?>" class="btn btn-danger" style="padding: 6px 10px; background: white; border: 1px solid var(--border-subtle); color: var(--color-danger);" onclick="return confirm('Supprimer ce client ?')">
                                                 <span class="material-symbols-rounded" style="font-size: 18px;">delete</span>
                                             </a>
                                         </div>
@@ -99,11 +96,11 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.querySelector('.search-bar input');
+            const searchInput = document.querySelector('.header-search input');
             const tableRows = document.querySelectorAll('tbody tr');
 
             searchInput.addEventListener('input', function(e) {
-                const term = e.target.value.toLowerCase();
+                const term = e.target.value.toLowerCase().trim();
                 
                 tableRows.forEach(row => {
                     const text = row.textContent.toLowerCase();

@@ -33,10 +33,7 @@
 
         <main class="main-content">
             <header class="main-header">
-                <div class="header-search">
-                    <span class="material-symbols-rounded">search</span>
-                    <input type="text" placeholder="Rechercher...">
-                </div>
+                <div class="header-search"></div>
                 <div class="user-nav">
                     <div class="user-info"><p class="user-name">Admin Bieni Loic</p><p class="user-role">Administrateur</p></div>
                     <div class="avatar">A</div>
@@ -65,6 +62,10 @@
                     <div class="form-group">
                         <label for="phone">Numéro de téléphone</label>
                         <input type="text" id="phone" name="phone" placeholder="+33 0 00 00 00 00">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe provisoire (Le client pourra le changer)</label>
+                        <input type="password" id="password" name="password" placeholder="••••••••" required>
                     </div>
                     <div class="form-group">
                         <label for="address">Adresse de livraison</label>

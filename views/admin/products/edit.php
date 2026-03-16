@@ -33,10 +33,7 @@
 
         <main class="main-content">
             <header class="main-header">
-                <div class="header-search">
-                    <span class="material-symbols-rounded">search</span>
-                    <input type="text" placeholder="Rechercher...">
-                </div>
+                <div class="header-search"></div>
                 <div class="user-nav">
                     <div class="user-info"><p class="user-name">Admin Bieni Loic</p><p class="user-role">Administrateur</p></div>
                     <div class="avatar">A</div>

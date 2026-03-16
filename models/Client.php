@@ -17,10 +17,7 @@ class Client extends Model {
         return $stmt->execute([$data['name'], $data['email'], $data['phone'], $data['address']]);
     }
 
-    public function update($id, $data) {
-        $stmt = $this->db->prepare("UPDATE clients SET name = ?, email = ?, phone = ?, address = ? WHERE id = ?");
-        return $stmt->execute([$data['name'], $data['email'], $data['phone'], $data['address'], $id]);
-    }
+
 
     public function delete($id) {
         $stmt = $this->db->prepare("DELETE FROM clients WHERE id = ?");
