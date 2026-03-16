@@ -147,4 +147,34 @@ class HomeController extends Controller {
         echo json_encode(['order' => $order, 'items' => $items]);
         exit;
     }
+
+    public function settings() {
+        AuthController::checkAuth('client');
+        $userModel = new User();
+        $user = $userModel->findByEmail($_SESSION['email']);
+        $client = $this->clientModel->getByEmail($_SESSION['email']);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userData = [
+                'username' => $_POST['name'], 
+                'email' => $_POST['email'],
+                'password' => $_POST['password']
+            ];
+            
+            $clientData = [
+                'name' => $_POST['name'],
+                'email' => $_POST['email'],
+                'phone' => $_POST['phone'],
+                'address' => $_POST['address']
+            ];
+
+            $userModel->updateProfile($user['id'], $userData);
+            $this->clientModel->updateProfileByEmail($_SESSION['email'], $clientData);
+            
+            $_SESSION['email'] = $clientData['email'];
+            $this->redirect('/settings?success=1');
+        } else {
+            $this->render('home/settings', ['user' => $user, 'client' => $client]);
+        }
+    }
 }

@@ -26,6 +26,7 @@
                                 <span class="badge badge-danger" style="padding: 2px 6px; font-size: 11px;"><?php echo $pendingOrdersCount; ?></span>
                             <?php endif; ?>
                         </a></li>
+                    <li><a href="<?php echo BASE_URL; ?>/admin/settings"><span class="material-symbols-rounded">settings</span>Paramètres</a></li>
                     <li style="margin-top: auto; padding-top: var(--space-5);"><a href="<?php echo BASE_URL; ?>/logout" style="color: var(--color-danger);"><span class="material-symbols-rounded">logout</span>Déconnexion</a></li>
                 </ul>
             </nav>
@@ -38,8 +39,8 @@
                     <input type="text" placeholder="Suivre une commande...">
                 </div>
                 <div class="user-nav">
-                    <div class="user-info"><p class="user-name">Admin Bieni Loic</p><p class="user-role">Administrateur</p></div>
-                    <div class="avatar">A</div>
+                    <div class="user-info"><p class="user-name"><?php echo htmlspecialchars($username ?? 'Administrateur'); ?></p><p class="user-role">Administrateur</p></div>
+                    <div class="avatar"><?php echo strtoupper(substr($username ?? 'A', 0, 1)); ?></div>
                 </div>
             </header>
 

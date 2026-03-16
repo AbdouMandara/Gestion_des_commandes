@@ -43,6 +43,7 @@
                             <?php endif; ?>
                         </a>
                     </li>
+                    <li><a href="<?php echo BASE_URL; ?>/admin/settings"><span class="material-symbols-rounded">settings</span>Paramètres</a></li>
                     <li style="margin-top: auto; padding-top: var(--space-5);">
                         <a href="<?php echo BASE_URL; ?>/logout" style="color: var(--color-danger);">
                             <span class="material-symbols-rounded">logout</span>
@@ -55,17 +56,14 @@
 
         <main class="main-content">
             <header class="main-header">
-                <div class="header-search">
-                    <span class="material-symbols-rounded">search</span>
-                    <input type="text" placeholder="Rechercher...">
-                </div>
+                <div class="header-search"></div>
                 
                 <div class="user-nav">
                     <div class="user-info">
-                        <p class="user-name">Admin Bieni Loic</p>
+                        <p class="user-name"><?php echo htmlspecialchars($username ?? 'Administrateur'); ?></p>
                         <p class="user-role">Administrateur</p>
                     </div>
-                    <div class="avatar">A</div>
+                    <div class="avatar"><?php echo strtoupper(substr($username ?? 'A', 0, 1)); ?></div>
                 </div>
             </header>
 

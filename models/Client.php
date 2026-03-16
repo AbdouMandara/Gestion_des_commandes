@@ -27,4 +27,15 @@ class Client extends Model {
     public function getCount() {
         return $this->db->query("SELECT COUNT(*) FROM clients")->fetchColumn();
     }
+
+    public function getByEmail($email) {
+        $stmt = $this->db->prepare("SELECT * FROM clients WHERE email = ?");
+        $stmt->execute([$email]);
+        return $stmt->fetch();
+    }
+
+    public function updateProfileByEmail($oldEmail, $data) {
+        $stmt = $this->db->prepare("UPDATE clients SET name = ?, email = ?, phone = ?, address = ? WHERE email = ?");
+        return $stmt->execute([$data['name'], $data['email'], $data['phone'], $data['address'], $oldEmail]);
+    }
 }

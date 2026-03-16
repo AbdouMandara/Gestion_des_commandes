@@ -9,10 +9,23 @@ class User extends Model {
 
     public function create($username, $email, $password, $role = 'client') {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        // Assuming we still want to keep 'username' as well for some reason, maybe set it same as email if needed.
-        // Wait, the client said: "add the email column" but didn't explicitly say remove username.
-        // I will just insert email where username was inserted previously, if username is required, or just both as email.
         $stmt = $this->db->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)");
         return $stmt->execute([$username, $email, $hashedPassword, $role]);
+    }
+
+    public function updateProfile($id, $data) {
+        $sql = "UPDATE users SET username = ?, email = ?";
+        $params = [$data['username'], $data['email']];
+
+        if (!empty($data['password'])) {
+            $sql .= ", password = ?";
+            $params[] = password_hash($data['password'], PASSWORD_DEFAULT);
+        }
+
+        $sql .= " WHERE id = ?";
+        $params[] = $id;
+
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute($params);
     }
 }

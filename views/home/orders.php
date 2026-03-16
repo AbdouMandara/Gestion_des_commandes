@@ -21,12 +21,17 @@
                 </div>
             </div>
             
-            <?php if (!empty($notifications)): ?>
-            <div style="position: relative; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: white; border: 1px solid var(--border-subtle);">
-                <span class="material-symbols-rounded" style="font-size: 20px; color: var(--color-primary-10);">notifications</span>
-                <span style="position: absolute; top: 0; right: 0; width: 10px; height: 10px; background: var(--color-danger); border: 2px solid white; border-radius: 50%;"></span>
+            <div style="display: flex; align-items: center; gap: var(--space-2);">
+                <a href="<?php echo BASE_URL; ?>/settings" class="avatar" style="width: 40px; height: 40px; background: white; border: 1px solid var(--border-subtle); color: var(--text-main); text-decoration: none;" title="Paramètres">
+                    <span class="material-symbols-rounded" style="font-size: 20px;">settings</span>
+                </a>
+                <?php if (!empty($notifications)): ?>
+                <div style="position: relative; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: white; border: 1px solid var(--border-subtle);">
+                    <span class="material-symbols-rounded" style="font-size: 20px; color: var(--color-primary-10);">notifications</span>
+                    <span style="position: absolute; top: 0; right: 0; width: 10px; height: 10px; background: var(--color-danger); border: 2px solid white; border-radius: 50%;"></span>
+                </div>
+                <?php endif; ?>
             </div>
-            <?php endif; ?>
         </header>
 
         <?php if (!empty($notifications)): ?>

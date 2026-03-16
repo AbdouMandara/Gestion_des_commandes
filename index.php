@@ -17,6 +17,7 @@ $router = new Router();
 // Define routes
 $router->add('/', 'HomeController', 'index');
 $router->add('/catalog', 'HomeController', 'catalog');
+$router->add('/settings', 'HomeController', 'settings');
 $router->add('/my-orders', 'HomeController', 'myOrders');
 $router->add('/order/create', 'HomeController', 'orderCreate');
 $router->add('/notifications/read', 'HomeController', 'markNotificationsRead');
@@ -24,6 +25,7 @@ $router->add('/login', 'AuthController', 'login');
 $router->add('/register', 'AuthController', 'register');
 $router->add('/logout', 'AuthController', 'logout');
 $router->add('/admin/dashboard', 'AdminController', 'index');
+$router->add('/admin/settings', 'AdminController', 'settings');
 
 // Clients CRUD
 $router->add('/admin/clients', 'AdminController', 'clientsList');

@@ -23,6 +23,8 @@ class AdminController extends Controller {
 
     public function index() {
         AuthController::checkAuth('admin');
+        $userModel = new User();
+        $admin = $userModel->findByEmail($_SESSION['email']);
         
         $clientCount = $this->clientModel->getCount();
         $productCount = $this->productModel->getCount(); 
@@ -37,7 +39,7 @@ class AdminController extends Controller {
         $totalRevenue = $stmt->fetchColumn() ?: 0;
 
         $this->render('admin/dashboard', [
-            'username' => $_SESSION['email'] ?? '',
+            'username' => $admin['username'] ?? $_SESSION['email'],
             'clientCount' => $clientCount,
             'productCount' => $productCount,
             'orderCount' => $orderCount,
@@ -50,12 +52,20 @@ class AdminController extends Controller {
     // CLIENTS MANAGEMENT
     public function clientsList() {
         AuthController::checkAuth('admin');
+        $userModel = new User();
+        $admin = $userModel->findByEmail($_SESSION['email']);
         $clients = $this->clientModel->getAll();
-        $this->render('admin/clients/list', ['clients' => $clients, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
+        $this->render('admin/clients/list', [
+            'clients' => $clients, 
+            'pendingOrdersCount' => $this->getPendingOrdersCount(),
+            'username' => $admin['username'] ?? $_SESSION['email']
+        ]);
     }
 
     public function clientAdd() {
         AuthController::checkAuth('admin');
+        $userModel = new User();
+        $admin = $userModel->findByEmail($_SESSION['email']);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'] ?? '';
             $email = $_POST['email'] ?? '';
@@ -78,7 +88,10 @@ class AdminController extends Controller {
             }
             $this->redirect('/admin/clients');
         } else {
-            $this->render('admin/clients/add', ['pendingOrdersCount' => $this->getPendingOrdersCount()]);
+            $this->render('admin/clients/add', [
+                'pendingOrdersCount' => $this->getPendingOrdersCount(),
+                'username' => $admin['username'] ?? $_SESSION['email']
+            ]);
         }
     }
 
@@ -96,22 +109,35 @@ class AdminController extends Controller {
     // PRODUCTS MANAGEMENT
     public function productsList() {
         AuthController::checkAuth('admin');
+        $userModel = new User();
+        $admin = $userModel->findByEmail($_SESSION['email']);
         $products = $this->productModel->getAll();
-        $this->render('admin/products/list', ['products' => $products, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
+        $this->render('admin/products/list', [
+            'products' => $products, 
+            'pendingOrdersCount' => $this->getPendingOrdersCount(),
+            'username' => $admin['username'] ?? $_SESSION['email']
+        ]);
     }
 
     public function productAdd() {
         AuthController::checkAuth('admin');
+        $userModel = new User();
+        $admin = $userModel->findByEmail($_SESSION['email']);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->productModel->create($_POST);
             $this->redirect('/admin/products');
         } else {
-            $this->render('admin/products/add', ['pendingOrdersCount' => $this->getPendingOrdersCount()]);
+            $this->render('admin/products/add', [
+                'pendingOrdersCount' => $this->getPendingOrdersCount(),
+                'username' => $admin['username'] ?? $_SESSION['email']
+            ]);
         }
     }
 
     public function productEdit() {
         AuthController::checkAuth('admin');
+        $userModel = new User();
+        $admin = $userModel->findByEmail($_SESSION['email']);
         $id = $_GET['id'] ?? null;
         if (!$id) $this->redirect('/admin/products');
 
@@ -120,7 +146,11 @@ class AdminController extends Controller {
             $this->redirect('/admin/products');
         } else {
             $product = $this->productModel->getById($id);
-            $this->render('admin/products/edit', ['product' => $product, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
+            $this->render('admin/products/edit', [
+                'product' => $product, 
+                'pendingOrdersCount' => $this->getPendingOrdersCount(),
+                'username' => $admin['username'] ?? $_SESSION['email']
+            ]);
         }
     }
 
@@ -136,12 +166,20 @@ class AdminController extends Controller {
     // ORDERS MANAGEMENT
     public function ordersList() {
         AuthController::checkAuth('admin');
+        $userModel = new User();
+        $admin = $userModel->findByEmail($_SESSION['email']);
         $orders = $this->orderModel->getAll();
-        $this->render('admin/orders/list', ['orders' => $orders, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
+        $this->render('admin/orders/list', [
+            'orders' => $orders, 
+            'pendingOrdersCount' => $this->getPendingOrdersCount(),
+            'username' => $admin['username'] ?? $_SESSION['email']
+        ]);
     }
 
     public function orderAdd() {
         AuthController::checkAuth('admin');
+        $userModel = new User();
+        $admin = $userModel->findByEmail($_SESSION['email']);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $client_id = $_POST['client_id'];
             $items = [];
@@ -160,12 +198,23 @@ class AdminController extends Controller {
                 $error = $e->getMessage();
                 $clients = $this->clientModel->getAll();
                 $products = $this->productModel->getAll();
-                $this->render('admin/orders/add', ['clients' => $clients, 'products' => $products, 'error' => $error, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
+                $this->render('admin/orders/add', [
+                    'clients' => $clients, 
+                    'products' => $products, 
+                    'error' => $error, 
+                    'pendingOrdersCount' => $this->getPendingOrdersCount(),
+                    'username' => $admin['username'] ?? $_SESSION['email']
+                ]);
             }
         } else {
             $clients = $this->clientModel->getAll();
             $products = $this->productModel->getAll();
-            $this->render('admin/orders/add', ['clients' => $clients, 'products' => $products, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
+            $this->render('admin/orders/add', [
+                'clients' => $clients, 
+                'products' => $products, 
+                'pendingOrdersCount' => $this->getPendingOrdersCount(),
+                'username' => $admin['username'] ?? $_SESSION['email']
+            ]);
         }
     }
 
@@ -208,5 +257,29 @@ class AdminController extends Controller {
         header('Content-Type: application/json');
         echo json_encode(['order' => $order, 'items' => $items]);
         exit;
+    }
+
+    public function settings() {
+        AuthController::checkAuth('admin');
+        $userModel = new User();
+        $user = $userModel->findByEmail($_SESSION['email']);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = [
+                'username' => $_POST['username'],
+                'email' => $_POST['email'],
+                'password' => $_POST['password']
+            ];
+            
+            if ($userModel->updateProfile($user['id'], $data)) {
+                $_SESSION['email'] = $data['email'];
+                $this->redirect('/admin/settings?success=1');
+            } else {
+                $error = "Erreur lors de la mise à jour.";
+                $this->render('admin/settings', ['user' => $user, 'error' => $error, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
+            }
+        } else {
+            $this->render('admin/settings', ['user' => $user, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
+        }
     }
 }
