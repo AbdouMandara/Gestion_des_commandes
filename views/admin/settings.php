@@ -37,10 +37,10 @@
                 <div class="header-search"></div>
                 <div class="user-nav">
                     <div class="user-info">
-                        <p class="user-name">Admin Bieni Loic</p>
+                        <p class="user-name"><?php echo htmlspecialchars($username ?? 'Administrateur'); ?></p>
                         <p class="user-role">Administrateur</p>
                     </div>
-                    <div class="avatar">A</div>
+                    <div class="avatar"><?php echo strtoupper(substr($username ?? 'A', 0, 1)); ?></div>
                 </div>
             </header>
 

@@ -276,10 +276,19 @@ class AdminController extends Controller {
                 $this->redirect('/admin/settings?success=1');
             } else {
                 $error = "Erreur lors de la mise à jour.";
-                $this->render('admin/settings', ['user' => $user, 'error' => $error, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
+                $this->render('admin/settings', [
+                    'user' => $user, 
+                    'error' => $error, 
+                    'pendingOrdersCount' => $this->getPendingOrdersCount(),
+                    'username' => $user['username'] ?? $_SESSION['email']
+                ]);
             }
         } else {
-            $this->render('admin/settings', ['user' => $user, 'pendingOrdersCount' => $this->getPendingOrdersCount()]);
+            $this->render('admin/settings', [
+                'user' => $user, 
+                'pendingOrdersCount' => $this->getPendingOrdersCount(),
+                'username' => $user['username'] ?? $_SESSION['email']
+            ]);
         }
     }
 }
