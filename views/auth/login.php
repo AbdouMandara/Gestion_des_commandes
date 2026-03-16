@@ -6,11 +6,16 @@
     <title>Connexion | GestionPro</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 <body class="auth-body">
     <div class="auth-wrapper">
-        <div class="auth-card" style="padding: var(--space-6);">
-            <div class="auth-brand" style="margin-bottom: var(--space-5); text-align: center;">
+        <div class="auth-card" style="padding: var(--space-6); position: relative;">
+            <a href="<?php echo BASE_URL; ?>/" style="position: absolute; top: 16px; left: 16px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--color-neutral-95); border: 1px solid var(--border-subtle); border-radius: 50%; color: var(--text-main); text-decoration: none;" title="Retour à l'accueil">
+                <span class="material-symbols-rounded" style="font-size: 20px;">arrow_back</span>
+            </a>
+
+            <div class="auth-brand" style="margin-bottom: var(--space-5); text-align: center; margin-top: 12px;">
                 <h1 style="font-size: 32px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: var(--space-1);">Gestion<span>Pro</span></h1>
                 <p class="text-muted" style="font-size: 13px;">Système de gestion commerciale premium</p>
             </div>
@@ -37,10 +42,6 @@
             </form>
             
             <div style="margin-top: var(--space-6); text-align: center; border-top: 1px solid var(--border-subtle); padding-top: var(--space-4);">
-                <a href="<?php echo BASE_URL; ?>/" class="btn btn-secondary" style="font-size: 13px; margin-bottom: var(--space-2); display: inline-block;">
-                    <span class="material-symbols-rounded" style="vertical-align: middle; font-size: 18px; margin-right: 4px;">home</span>
-                    Retour à l'accueil
-                </a>
                 <p class="text-muted" style="font-size: 11px;">&copy; <?php echo date('Y'); ?> GestionPro. Tous droits réservés.</p>
             </div>
         </div>

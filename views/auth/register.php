@@ -6,6 +6,7 @@
     <title>Créer un compte | GestionPro</title>
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 <body class="bg-main" style="display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: var(--space-4);">
     <div style="width: 100%; max-width: 450px;">
