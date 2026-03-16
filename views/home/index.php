@@ -75,14 +75,6 @@
                 <h2 style="font-size: 18px; font-weight: 700; margin-bottom: var(--space-1);">Mes Commandes</h2>
                 <p>Historique et suivi de vos achats.</p>
             </a>
-
-            <a href="<?php echo BASE_URL; ?>/settings" class="card" style="text-align: center; padding: var(--space-6) var(--space-4);">
-                <div class="avatar" style="width: 56px; height: 56px; margin: 0 auto var(--space-3); background: var(--color-neutral-95); color: var(--color-primary); border-radius: 12px; border: 1px solid var(--border-subtle);">
-                    <span class="material-symbols-rounded" style="font-size: 28px;">settings</span>
-                </div>
-                <h2 style="font-size: 18px; font-weight: 700; margin-bottom: var(--space-1);">Paramètres</h2>
-                <p>Gérez votre profil et mot de passe.</p>
-            </a>
         </div>
 
         <footer style="margin-top: calc(var(--space-8) * 2); border-top: 1px solid var(--border-subtle); padding-top: var(--space-4); text-align: center; color: var(--text-muted); font-size: 12px; font-weight: 500;">
