@@ -91,6 +91,17 @@
                                         <span class="material-symbols-rounded" style="font-size: 18px;">visibility</span>
                                         Détails
                                     </button>
+                                   <?php if ($s === 'livree'): ?>
+                                   <button onclick="generatePDF(<?php echo $order['id']; ?>)" class="btn" style="padding: 6px 10px; background: white; border: 1px solid var(--border-subtle); color: var(--color-primary-10);" title="Télécharger le PDF">
+                                        <span class="material-symbols-rounded" style="font-size: 18px;">download</span>
+                                        PDF
+                                    </button>
+                                   <?php else: ?>
+                                    <button disabled class="btn" style="padding: 6px 10px; background: var(--color-neutral-90); border: 1px solid var(--border-subtle); color: var(--text-muted); cursor: not-allowed;" title="PDF disponible uniquement si livrée">
+                                        <span class="material-symbols-rounded" style="font-size: 18px;">download_off</span>
+                                        PDF
+                                    </button>
+                                   <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -136,6 +147,8 @@
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 <script>
     const BASE = '<?php echo BASE_URL; ?>';
     const statusBadges = { 'en attente': '', 'en cours': 'badge-warning', 'livree': 'badge-success', 'rejetee': 'badge-danger' };
@@ -171,6 +184,101 @@
 
     function closeModal() { document.getElementById('orderModal').style.display = 'none'; }
     document.getElementById('orderModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
+    function generatePDF(id) {
+        fetch(BASE + '/orders/detail?id=' + id)
+            .then(r => r.json())
+            .then(data => {
+                if(data.error) { alert(data.error); return; }
+                const o = data.order;
+                
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Helper custom formatter that only uses standard ASCII space (U+0020).
+                // jsPDF's base fonts can severely corrupt kerning and character mapping 
+                // when given non-breaking spaces like U+202F produced by toLocaleString('fr-FR')
+                const formatMoney = (val) => {
+                    return Number(val).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+                };
+
+                const cleanStr = (str) => {
+                    return str ? String(str).replace(/[\u202F\u00A0]/g, ' ') : '';
+                };
+
+                // Colors and Styling variables
+                const primaryColor = [30, 30, 46];
+                
+                // Add header info
+                doc.setFontSize(22);
+                doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+                doc.setFont("helvetica", "bold");
+                doc.text("GestionPro", 14, 20);
+                
+                doc.setFontSize(16);
+                doc.setFont("helvetica", "normal");
+                doc.text("Facture de la commande", 14, 30);
+                
+                // Add Order details
+                doc.setFontSize(11);
+                doc.setTextColor(100);
+                doc.text(`Commande N° : ${o.id}`, 14, 45);
+                
+                let dateStr = new Date(o.updated_at || o.created_at).toLocaleDateString('fr-FR');
+                doc.text(`Date de livraison : ${cleanStr(dateStr)}`, 14, 52);
+                doc.text(`Statut : Livrée`, 14, 59);
+
+                // Build Table
+                const tableColumn = ["Produit", "Qté", "Prix unit. (FCFA)", "Sous-total (FCFA)"];
+                const tableRows = [];
+
+                data.items.forEach(item => {
+                    const prix = parseFloat(item.price_at_purchase);
+                    const qte = parseInt(item.quantity);
+                    const subtotal = prix * qte;
+                    tableRows.push([
+                        cleanStr(item.product_name),
+                        qte.toString(),
+                        formatMoney(prix),
+                        formatMoney(subtotal)
+                    ]);
+                });
+
+                doc.autoTable({
+                    startY: 70,
+                    head: [tableColumn],
+                    body: tableRows,
+                    theme: 'striped',
+                    headStyles: { fillColor: primaryColor },
+                    columnStyles: {
+                        1: { halign: 'center' },
+                        2: { halign: 'right' },
+                        3: { halign: 'right' }
+                    }
+                });
+
+                // Add Total at the bottom
+                const finalY = doc.lastAutoTable.finalY || 70;
+                doc.setFontSize(14);
+                doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+                doc.setFont("helvetica", "bold");
+                const totalText = `Total : ${formatMoney(o.total_amount)} FCFA`;
+                doc.text(totalText, 14, finalY + 15);
+
+                // Footer
+                doc.setFontSize(10);
+                doc.setFont("helvetica", "normal");
+                doc.setTextColor(150);
+                doc.text("Merci pour votre confiance !", 14, finalY + 30);
+
+                // Download the document
+                doc.save(`Facture_Commande_${o.id}.pdf`);
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Erreur lors de la génération du PDF.");
+            });
+    }
 </script>
 </body>
 </html>

@@ -379,6 +379,16 @@ tr:last-child td {
 .sidebar-nav li {
   margin-bottom: 10px;
 }
+.sidebar-header{
+  width: 100%;
+  height: 100px;
+
+}
+.img-sidebar-header{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 .sidebar-nav a {
   color: var(--color-neutral-86);

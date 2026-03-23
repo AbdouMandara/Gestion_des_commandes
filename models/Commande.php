@@ -16,7 +16,7 @@ class Commande extends Model {
 
     public function getById($id) {
         $stmt = $this->db->prepare("SELECT c.*, cl.name as client_name FROM commandes c JOIN clients cl ON c.client_id = cl.id WHERE c.id = ?");
-        $stmt->execute([id]);
+        $stmt->execute([$id]);
         return $stmt->fetch();
     }
 

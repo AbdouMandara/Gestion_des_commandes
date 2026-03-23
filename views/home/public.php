@@ -20,7 +20,7 @@
     <div class="container" style="max-width: 1000px; padding-top: var(--space-5);">
         <header style="margin-bottom: var(--space-6); text-align: center;">
             <h1 style="font-size: 42px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: var(--space-2);">Nos Équipements Professionnels</h1>
-            <p class="text-muted" style="max-width: 600px; margin: 0 auto; font-size: 16px;">Parcourez notre catalogue et inscrivez-vous en un clic pour passer commande ou suivre vos achats.</p>
+
         </header>
 
         <div class="grid grid-3" style="gap: var(--space-4); margin-bottom: var(--space-6);">

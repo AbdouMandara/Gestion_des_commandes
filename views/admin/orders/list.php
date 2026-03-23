@@ -150,7 +150,7 @@
             </div>
         </div>
         <div style="padding:24px;">
-            <p style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#6b7280; margin:0 0 12px;">Produits commandés</p>
+
             <table style="width:100%; border-collapse:collapse;">
                 <thead>
                     <tr style="font-size:11px; text-transform:uppercase; color:#9ca3af; letter-spacing:0.04em;">
