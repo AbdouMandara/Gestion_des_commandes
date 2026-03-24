@@ -10,7 +10,10 @@
 </head>
 <body class="bg-main" style="display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: var(--space-4);">
     <div style="width: 100%; max-width: 450px;">
-        <div style="text-align: center; margin-bottom: var(--space-5);">
+        <div style="text-align: center; margin-bottom: var(--space-5); position: relative;">
+                    <a href="<?php echo BASE_URL; ?>/" style="position: absolute; top: 16px; left: 16px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--color-neutral-95); border: 1px solid var(--border-subtle); border-radius: 50%; color: var(--text-main); text-decoration: none;" title="Retour à l'accueil">
+                <span class="material-symbols-rounded" style="font-size: 20px;">arrow_back</span>
+            </a>
             <div style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: var(--color-neutral-95); border-radius: var(--radius-lg); margin-bottom: var(--space-3); border: 1px solid var(--border-subtle);">
                 <span class="material-symbols-rounded" style="color: var(--color-primary-10);">person_add</span>
             </div>
@@ -28,7 +31,7 @@
             <form action="<?php echo BASE_URL; ?>/register" method="POST">
                 <div class="form-group">
                     <label for="name">Nom complet</label>
-                    <input type="text" id="name" name="name" required placeholder="Jean Dupont" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>">
+                    <input type="text" id="name" name="name" required placeholder="BIENI LOIC" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>">
                 </div>
                 
                 <div class="form-group">

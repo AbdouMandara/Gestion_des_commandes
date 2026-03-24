@@ -28,7 +28,7 @@
 
             <form action="<?php echo BASE_URL; ?>/login" method="POST">
                 <div class="form-group" style="margin-bottom: var(--space-4);">
-                    <label for="username">Identifiant unique</label>
+                    <label for="username">Adresse e-mail</label>
                     <input type="text" id="username" name="email" required placeholder="e-mail ..." autofocus>
                 </div>
                 <div class="form-group" style="margin-bottom: var(--space-5);">
