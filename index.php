@@ -26,6 +26,7 @@ $router->add('/register', 'AuthController', 'register');
 $router->add('/logout', 'AuthController', 'logout');
 $router->add('/admin/dashboard', 'AdminController', 'index');
 $router->add('/admin/settings', 'AdminController', 'settings');
+$router->add('/verify-password', 'AuthController', 'verifyPassword');
 
 // Clients CRUD
 $router->add('/admin/clients', 'AdminController', 'clientsList');

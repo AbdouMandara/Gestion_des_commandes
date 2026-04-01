@@ -88,6 +88,27 @@ class AuthController extends Controller {
         $this->redirect('/login');
     }
 
+    public function verifyPassword() {
+        if (!isset($_SESSION['user_id'])) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'error' => 'Non authentifié']);
+            exit;
+        }
+
+        $password = $_POST['password'] ?? '';
+        $user = $this->userModel->findByEmail($_SESSION['email']);
+
+        if ($user && password_verify($password, $user['password'])) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true]);
+            exit;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'error' => 'le mot de passe est incorrect']);
+        exit;
+    }
+
     public static function checkAuth($role = null) {
         if (!isset($_SESSION['user_id'])) {
             header("Location: ./login");

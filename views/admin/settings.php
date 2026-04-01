@@ -82,5 +82,104 @@
             </div>
         </main>
     </div>
+
+    <!-- Password Confirmation Modal -->
+    <div id="password-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <span class="material-symbols-rounded">lock</span>
+                </div>
+                <h2>Confirmer les modifications</h2>
+                <p>Veuillez saisir votre mot de passe actuel pour valider les changements.</p>
+            </div>
+            <div class="modal-body">
+                <div id="modal-error-msg" class="modal-error">Le mot de passe est incorrect</div>
+                <input type="password" id="password-confirm-input" placeholder="••••••••" autocomplete="current-password">
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-confirm-password" class="btn">Confirmer et enregistrer</button>
+                <button type="button" id="btn-cancel-modal" class="btn btn-ghost">Annuler</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const settingsForm = document.querySelector('form');
+        const modal = document.getElementById('password-modal');
+        const passwordInput = document.getElementById('password-confirm-input');
+        const confirmBtn = document.getElementById('btn-confirm-password');
+        const cancelBtn = document.getElementById('btn-cancel-modal');
+        const errorMsg = document.getElementById('modal-error-msg');
+        
+        let isPasswordVerified = false;
+
+        if (settingsForm) {
+            settingsForm.addEventListener('submit', function(e) {
+                if (!isPasswordVerified) {
+                    e.preventDefault();
+                    modal.classList.add('active');
+                    passwordInput.focus();
+                }
+            });
+        }
+
+        cancelBtn.addEventListener('click', function() {
+            modal.classList.remove('active');
+            passwordInput.value = '';
+            errorMsg.style.display = 'none';
+        });
+
+        confirmBtn.addEventListener('click', async function() {
+            const password = passwordInput.value;
+            if (!password) {
+                showError('Veuillez saisir votre mot de passe');
+                return;
+            }
+
+            confirmBtn.classList.add('loading');
+            confirmBtn.innerText = 'Vérification...';
+            errorMsg.style.display = 'none';
+
+            try {
+                const formData = new FormData();
+                formData.append('password', password);
+
+                const response = await fetch('<?php echo BASE_URL; ?>/verify-password', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    isPasswordVerified = true;
+                    settingsForm.submit();
+                } else {
+                    showError(data.error || 'Le mot de passe est incorrect');
+                }
+            } catch (error) {
+                showError('Une erreur est survenue lors de la vérification');
+            } finally {
+                confirmBtn.classList.remove('loading');
+                confirmBtn.innerText = 'Confirmer et enregistrer';
+            }
+        });
+
+        function showError(msg) {
+            errorMsg.innerText = msg;
+            errorMsg.style.display = 'block';
+            passwordInput.value = '';
+            passwordInput.focus();
+        }
+        
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                confirmBtn.click();
+            }
+        });
+    });
+    </script>
 </body>
 </html>
